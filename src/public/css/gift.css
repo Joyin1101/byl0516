@@ -2,7 +2,7 @@
   position: relative; 
   width: 100%; 
   background: url('./../images/bg.png'); 
-  background-size: cover;
+  background-size: contain;
 }
 
 .gift-header {
