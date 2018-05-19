@@ -54,7 +54,7 @@
 }
 
 .btn-submit {
-  background-color: #FF3F29;
+  /* background-color: #FF3F29; */
   border: 0;
   width: 100%;
   font-size: 22px;
@@ -63,6 +63,10 @@
   color: white;
   letter-spacing: 2px;
   margin-top: 2rem;
+  background: -webkit-linear-gradient(-8deg, #ff5434, #ff9f4f); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(-8deg, #ff5434, #ff9f4f); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(-8deg, #ff5434, #ff9f4f); /* Firefox 3.6 - 15 */
+  background: linear-gradient(-8deg, #ff5434, #ff9f4f); /* 标准的语法 */
 }
 
 .error-msg {

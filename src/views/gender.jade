@@ -6,13 +6,21 @@ html
     script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
     script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
     link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='./../css/gender.css')
   body
-    div(class='container-fluid', style='position: relative; height: 100%; background-color: black')
-      .main-body
-        a.boy(href='/chat/boy')
-          image.thumbnail(src='./../images/thumb-boy.png')
-          
-        a.girl(href='/chat/girl')
-          image.thumbnail(src='./../images/thumb-girl.png')
+    .main-body
+      .gift-header
+        image.gift-title(src='./../images/title.png')
+      .gift-body
+        .actor
+          a.profile(href='/chat/boy')
+            image.thumbnail(src='./../images/ph-big-boy.png')
+          .actor-name 玉先生
+          .actor-intro 有才、有情、懂得人文情怀
+        .actor
+          a.profile(href='/chat/girl')
+            image.thumbnail(src='./../images/ph-big-girl.png')
+          .actor-name 兰小姐
+          .actor-intro 有颜、有爱、懂得精致生活
 
  

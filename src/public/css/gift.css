@@ -2,7 +2,7 @@
   position: relative; 
   width: 100%; 
   background: url('./../images/bg.png'); 
-  background-size: contain;
+  background-size: cover;
 }
 
 .gift-header {
@@ -11,7 +11,7 @@
 }
 
 .gift-body {
-  padding-top: 30%;
+  padding-top: 20%;
 }
 
 .gift-title {
@@ -68,10 +68,14 @@
   margin-bottom: 30px;
 }
 
+.gift-explain + .gift-explain {
+  margin-top: -24px;
+}
+
 .item-sub-btn {
   background-color: #FF6333;
   border-radius: 10px 6px 6px 10px;
-
+  padding: 20px;
   width: 100px;
   position: relative;
   text-align: center;

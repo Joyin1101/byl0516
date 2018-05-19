@@ -1,0 +1,49 @@
+.main-body {
+  position: relative; 
+  width: 100%; 
+  height: 120%;
+  background: url('./../images/bg.png'); 
+  background-size: cover;
+}
+
+.gift-header {
+  padding-top: 14%;
+  padding-bottom: 4%;
+  text-align: center;
+}
+
+.gift-title {
+  width: 60%; 
+}
+.thumbnail {
+  width: 120px;
+  height: 120px;
+}
+
+.gift-body {
+  padding: 6% 10%;
+  width: 80%;
+  margin: 10% auto;
+  text-align: center;
+  background-color: white;
+  
+}
+
+.actor {
+  margin: 10px 0;
+}
+
+.actor + .actor {
+  margin-top: 30px;
+}
+
+
+.actor-name {
+  font-size: 20px;
+  line-height: 36px;
+}
+.actor-intro {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 1px;
+}

@@ -11,7 +11,7 @@ html
     .main-body
       .body-header
         image.main-title(src='./../images/title.png')
-      form.body-form(action="http://localhost:3000/success", method='post', style='margin-bottom: 0;')
+      form.body-form(action="/success", method='post', style='margin-bottom: 0;')
         .form-group(style='display: none')
           input#item-name(name='type', value='#{type}')
         .form-group(style='display: none')
@@ -21,7 +21,7 @@ html
         .form-group
           input#item-name(type='phone', placeholder='请填写你的姓名', value='#{name}', name='name')
         if error === 'phone'
-          .error-msg * 手机号输入有误
+          .error-msg * 手机号输入有误或已参与
         .form-group
           label.phone-label(for='item-phone') +86
           input#item-phone(type='phone', placeholder='请输入手机号',value='#{phone}', name='phone')

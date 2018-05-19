@@ -65,7 +65,7 @@ html
               .item-main-desc
                 | IP人物环保背包
             .item-sub
-              image.item-sub-icon(src='./../images/icon-coffee.png')
+              image.item-sub-icon(src='./../images/icon-gift.png')
           .gift-item
             .item-main
               .item-main-title 爱奇艺影视房免费体验1次
@@ -75,12 +75,13 @@ html
               image.item-sub-icon(src='./../images/icon-aiqiyi.png')
       else
         .gift-none-body
-          .gift-explain 【今日的预约名额已满，送您一张“赠饮券”】
+          .gift-explain 今日的预约名额已满
+          .gift-explain 【送您一张“赠饮券”】
           .gift-item
             .item-main
-              .item-main-title 房费抵用券
+              .item-main-title 赠饮券2张
               .item-main-desc
-                | 100元＊3张
+                | 任意非酒精饮料
             //- form(action="http://localhost:3000/form", method='post', style='margin-bottom: 0;')
               input(name='gender', value='girl', style='display: none;')
             a.item-sub-btn(href='/form?type=ticket&gender=#{gender}')

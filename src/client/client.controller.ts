@@ -2,10 +2,17 @@ import { Res, Get, Post, Controller, Req, Param, Body, Query } from '@nestjs/com
 import { ClientService } from './client.service';
 import AV = require('leancloud-storage');
 import moment = require('moment');
+import base64url from 'base64url';
+// import { shareBoy1 } from './../helper/shareItem.js';
 const PageViewLogger = AV.Object.extend('PageViewLogger');
 const Setting = AV.Object.extend('Setting');
 const LuckyDogs = AV.Object.extend('LuckyDogs');
 const GoldMaster = AV.Object.extend('GoldMaster');
+
+const boy1 = 'http://byl0516.blissr.com.cn/share-boy1.png?';
+const boy2 = 'http://byl0516.blissr.com.cn/share-boy2.png?';
+const girl1 = 'http://byl0516.blissr.com.cn/share-girl1.png?';
+const girl2 = 'http://byl0516.blissr.com.cn/share-girl2.png?';
 
 @Controller()
 export class ClientController {
@@ -15,21 +22,35 @@ export class ClientController {
   async root() {
     return 'Hi 白玉兰';
   }
+  @Get('MP_verify_i81jI4DRd4D2xwG3.txt')
+  async mp() {
+    return 'i81jI4DRd4D2xwG3';
+  }
+  @Get('mp/MP_verify_i81jI4DRd4D2xwG3.txt')
+  async mpVeri() {
+    return 'i81jI4DRd4D2xwG3';
+  }
 
   @Post('init')
   async init() {
-    // const setting = new Setting();
-    // setting.set('total', 10);
-    // setting.set('daily', 3);
-    // const res = await setting.save();
-    // console.log(res);
-    // return 'done';
+    const setTotal = new Setting();
+    setTotal.set('k', 'total');
+    setTotal.set('v', '10');
+    const setDaily = new Setting();
+    setDaily.set('k', 'daily');
+    setDaily.set('v', '3');
+    const setJump = new Setting();
+    setJump.set('k', 'jumpTo');
+    setJump.set('v', 'http://byl0516.leanapp.cn/');
+    const res = await AV.Object.saveAll([setTotal, setDaily, setJump]);
+    console.log(res);
+    return 'done';
 
     // const luckyList = new AV.Query('LuckyList');
     // const setting = new AV.Query('Setting');
     // luckyList.greaterThan('createdAt', );
 
-    return moment(moment().format('l'));
+    // return moment(moment().format('l'));
   }
 
   // 首页loading页面
@@ -98,18 +119,33 @@ export class ClientController {
   // 选择礼物页面
   @Get('gift/:gender')
   async gift(@Res() res, @Param() param){
+    // 获得全部奖品数量
     const luckyList = new AV.Query('LuckyDogs');
+    luckyList.equalTo('type', 'bag');
+    const totalBag = await luckyList.count();
+
+    // 获得预设奖品数量
     const setting = new AV.Query('Setting');
-    // console.log(new Date(moment(moment().format('l'), 'MM/DD/YYYY', false).format()));
-    luckyList.greaterThanOrEqualTo('createdAt', new Date(moment(moment().format('l'), 'MM/DD/YYYY', false).format()));
-    luckyList.lessThan('createdAt', new Date(moment(moment().add(1, 'd').format('l'), 'MM/DD/YYYY', false).format()));
-    const rlt = await luckyList.count();
+    setting.equalTo('k', 'total');
+    const presetTotal: any = await setting.first();
 
-    const preference: any = await setting.first();
-    console.log(preference.get('daily'));
+    if (totalBag <= parseInt(presetTotal.get('v'), 10)) {
+      // console.log(new Date(moment(moment().format('l'), 'MM/DD/YYYY', false).format()));
+      luckyList.greaterThanOrEqualTo('createdAt', new Date(moment(moment().format('l'), 'MM/DD/YYYY', false).format()));
+      luckyList.lessThan('createdAt', new Date(moment(moment().add(1, 'd').format('l'), 'MM/DD/YYYY', false).format()));
+      const rlt = await luckyList.count();
 
-    if ( rlt < preference.get('daily')){
-      res.render('gift', { hasGift: true, gender: param.gender });
+      setting.equalTo('k', 'daily');
+      const preference: any = await setting.first();
+      console.log(preference.get('v'));
+      console.log(rlt);
+
+      if ( rlt < parseInt(preference.get('v'), 10)){
+        console.log('hasgift');
+        res.render('gift', { hasGift: true, gender: param.gender });
+      } else {
+        res.render('gift', { hasGift: false, gender: param.gender });
+      }
     } else {
       res.render('gift', { hasGift: false, gender: param.gender });
     }
@@ -124,6 +160,9 @@ export class ClientController {
   //   res.render('form', {
   //     gender: query.gender,
   //     type: query.type,
+  //     error: '',
+  //     name: '',
+  //     phone: '',
   //   });
   // }
   @Get('form')
@@ -161,24 +200,63 @@ export class ClientController {
       res.render('form', checkItem);
       return false;
     } else {
-      console.log('2');
-      const luckDog = new LuckyDogs();
-      luckDog.set('type', body.type);
-      luckDog.set('gender', body.gender);
-      luckDog.set('name', body.name);
-      luckDog.set('phone', body.phone);
-      luckDog.set('pickDate', body.pick.split(' ')[0]);
-      luckDog.set('pickTime', body.pick.split(' ')[1]);
-      await luckDog.save();
+      const queryDog = new AV.Query('LuckyDogs');
+      queryDog.equalTo('phone', body.phone);
+      const isDouble = await queryDog.count();
+      console.log(body.phone);
+      console.log(isDouble);
 
-      // console.log(body);
-      // const luckyDog = new LuckyDogs();
-      // luckDog
+      if (isDouble < 1 ){
+        const luckDog = new LuckyDogs();
+        luckDog.set('type', body.type);
+        luckDog.set('gender', body.gender);
+        luckDog.set('name', body.name);
+        luckDog.set('phone', body.phone);
+        luckDog.set('pickDate', body.pick.split(' ')[0]);
+        luckDog.set('pickTime', body.pick.split(' ')[1]);
+        await luckDog.save();
 
-      res.render('share', { message: 'Gift!' });
+        // console.log(body);
+        // const luckyDog = new LuckyDogs();
+        // luckDog
+        const setting = new AV.Query('Setting');
+        setting.equalTo('k', 'jumpTo');
+        const jumpTo: any = await setting.first();
+
+        let share1 = '';
+        let share2 = '';
+        if (body.gender === 'boy') {
+          share1 = boy1 + 'watermark/2/text/';
+          share1 += base64url(body.name + '，人文咖内心很想“嗨”！约不？') + '/font/5a6L5L2T/fontsize/320/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/30/dy/20';
+
+          share2 = boy2 + 'watermark/2/text/';
+          share2 += base64url(body.name) + '/font/5a6L5L2T/fontsize/360/fill/IzRBNEE0QQ==/dissolve/100/gravity/NorthWest/dx/100/dy/32';
+        } else {
+          share1 = girl1 + 'watermark/2/text/';
+          share1 += base64url(body.name + '，人文咖内心很想“嗨”！约不？') + '/font/5a6L5L2T/fontsize/320/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/30/dy/20';
+
+          share2 = girl2 + 'watermark/2/text/';
+          share2 += base64url(body.name) + '/font/5a6L5L2T/fontsize/360/fill/IzRBNEE0QQ==/dissolve/100/gravity/NorthWest/dx/100/dy/32';
+        }
+        // console.log(url);
+
+        res.render('share', {
+          jumpTo: jumpTo.get('v') ,
+          share1,
+          share2,
+        });
+
+      } else {
+        checkItem.error = 'phone';
+        res.render('form', checkItem);
+      }
 
     }
 
+  }
+  @Get('success')
+  shareIn(@Res() res) {
+    res.redirect('/loading/test');
   }
 
   // operation

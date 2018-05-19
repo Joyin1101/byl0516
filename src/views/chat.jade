@@ -2,7 +2,7 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1')
-    title 正在输入中...
+    //- title 正在输入中...
     title 相约摩天轮 ⽩享一夏
     script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
     script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
@@ -22,12 +22,13 @@ html
           image.icon-profile(src='./../images/icon-profile.png')
     .main-body
       .body-chat
-        #chat1.chat-line.chat-left-item
+        #chat1.chat-time 11:01
+
+        #chat2.chat-line.chat-left-item
           .chat-thumbnail
             image.thumbnail(src= left)
           .chat-content 最近水逆?
 
-        #chat2.chat-time 11:01
 
         #chat3.chat-line.chat-right-item
           .chat-content 压力山大~~
@@ -110,13 +111,13 @@ html
     }
     $(document).ready(function(){
       setTimeout(function() {
-        texting('flex', '#chat1');
+        texting('block', '#chat1');
         //- $('#chat1').fadeIn().css('display', 'flex');
       }, 500);
       setTimeout(function() {
-        texting('block', '#chat2');
+        texting('flex', '#chat2');
         //- $('#chat2').fadeIn().css('display', 'block');
-      }, 1500);
+      }, 500);
       setTimeout(function() {
         texting('flex', '#chat3');
         //- $('#chat3').fadeIn().css('display', 'flex');
@@ -124,47 +125,47 @@ html
       setTimeout(function() {
         texting('flex', '#chat4');
         //- $('#chat4').fadeIn().css('display', 'flex');
-      }, 2000);
+      }, 2500);
       setTimeout(function() {
         texting('flex', '#chat5');
         //- $('#chat5').fadeIn().css('display', 'flex');
-      }, 2500);
+      }, 3500);
       setTimeout(function() {
         texting('flex', '#chat6');
         //- $('#chat6').fadeIn().css('display', 'flex');
-      }, 3000);
+      }, 4500);
       setTimeout(function() {
         texting('block', '#chat7');
         //- $('#chat7').fadeIn().css('display', 'block');
-      }, 3500);
+      }, 5500);
       setTimeout(function() {
         texting('flex', '#chat8');
         //- $('#chat8').fadeIn().css('display', 'flex');
-      }, 3500);
+      }, 5500);
       setTimeout(function() {
         texting('flex', '#chat9');
         //- $('#chat9').fadeIn().css('display', 'flex');
-      }, 4000);
+      }, 6500);
       setTimeout(function() {
         texting('flex', '#chat10');
         //- $('#chat10').fadeIn().css('display', 'flex');
-      }, 4500);
+      }, 7500);
       setTimeout(function() {
         texting('flex', '#chat11');
         //- $('#chat11').fadeIn().css('display', 'flex');
-      }, 5000);
+      }, 8500);
       setTimeout(function() {
         texting('flex', '#chat12');
         //- $('#chat12').fadeIn().css('display', 'flex');
-      }, 5500);
+      }, 9500);
       setTimeout(function() {
         texting('flex', '#chat13');
         //- $('#chat13').fadeIn().css('display', 'flex');
-      }, 6000);
+      }, 10500);
       setTimeout(function() {
         texting('block', '#chat14');
         //- $('#chat14').fadeIn().css('display', 'block');
-      }, 6500);
+      }, 11500);
       setTimeout(function() {
         $('#chat15').fadeIn().css('display', 'flex');
         setInterval(function() {
@@ -172,7 +173,7 @@ html
         },500)
 
         $("html,body").animate({scrollTop:$('#chat15').offset().top},2000);//1000是ms,也可以用slow代替
-      }, 7000);
+      }, 11500);
     });
     
     

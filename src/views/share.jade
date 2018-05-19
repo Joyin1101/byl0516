@@ -2,9 +2,55 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1')
-    title 领取成功
+    title 相约摩天轮 ⽩享一夏
     script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
-    script(type='text/javascript', src='./../js/lib/jquery-ui.min.js')
+    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
+    link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='./../css/share.css')
   body
-    div(style='position: relative; height: 100%; background-color: black')
-    //- p= message
+    .main-body
+      .gift-header
+        image.gift-title(src='./../images/title.png')
+      .gift-body
+        #carouselExampleControls.carousel.slide(data-ride='carousel')
+          .carousel-inner
+            .carousel-item.active
+              img#share1.d-block.w-100(src='#{share1}', alt='First slide')
+            .carousel-item
+              img#share2.d-block.w-100(src='#{share2}', alt='Second slide')
+          a.carousel-control-prev(href='#carouselExampleControls', role='button', data-slide='prev')
+            span.carousel-control-prev-icon(aria-hidden='true')
+            span.sr-only Previous
+          a.carousel-control-next(href='#carouselExampleControls', role='button', data-slide='next')
+            span.carousel-control-next-icon(aria-hidden='true')
+            span.sr-only Next
+
+        //- image.share-item(src='http://p8uu8ljre.bkt.clouddn.com/share-boy1.png?watermark/2/text/6LCi5am35am377yM5paH6Im657uF5Lmf6KaB4oCc55qu4oCd5LiA5LiLISDnuqbkuI3vvJ8=/font/5a6L5L2T/fontsize/320/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/30/dy/20')
+
+      .btn-groups
+        a.btn-submit(href='javascript:void(0)',onclick="splash()") 保存并分享
+        a.btn-submit(href='#{jumpTo}') 了解锦江之星
+    .splash-body
+      .gift-body.splash-image
+        image#selectShare.rotate-it.share-item(src='#{share1}')
+      //- .splash-tell 长按保存分享给好友
+      .splash-share-btn
+        a.btn-submit(href='#{jumpTo}') 了解锦江之星
+  script.
+    var currentTab = 0;
+    $(document).ready(function(){
+      $('#carouselExampleControls').on('slide.bs.carousel', function (e) {
+        // do something…
+        currentTab = e.to;
+        console.log(e.to)
+      })
+    })
+    function splash() {
+      console.log($('#share'+(currentTab+1)).attr('src'))
+
+      $('.splash-body').fadeIn();
+      setTimeout(function(){
+        $('#selectShare').attr('src', $('#share'+(currentTab+1)).attr('src')).addClass('rotate-share-item');
+      }, 500);
+      //- console.log('did it')
+    }
