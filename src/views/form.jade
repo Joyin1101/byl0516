@@ -1,0 +1,45 @@
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1')
+    title 相约摩天轮 ⽩享一夏
+    script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
+    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
+    link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='./../css/form.css')
+  body
+    .main-body
+      .body-header
+        image.main-title(src='./../images/title.png')
+      form.body-form(action="http://localhost:3000/success", method='post', style='margin-bottom: 0;')
+        .form-group(style='display: none')
+          input#item-name(name='type', value='#{type}')
+        .form-group(style='display: none')
+          input#item-name(name='gender', value='#{gender}')
+        if error === 'name'
+          .error-msg * 姓名有误
+        .form-group
+          input#item-name(type='phone', placeholder='请填写你的姓名', value='#{name}', name='name')
+        if error === 'phone'
+          .error-msg * 手机号输入有误
+        .form-group
+          label.phone-label(for='item-phone') +86
+          input#item-phone(type='phone', placeholder='请输入手机号',value='#{phone}', name='phone')
+        if error === 'date'
+          .error-msg * 日期选择有误
+        .form-group
+          select#item-datetime(name='pick')
+            option 请选择可参与的时间段
+            option 6月16日 10:00～12:00
+            option 6月16日 12:00～18:00
+            option 6月17日 10:00～12:00
+            option 6月17日 12:00～18:00
+            option 6月18日 10:00～12:00
+            option 6月18日 12:00～18:00
+            option 6月19日 10:00～12:00
+            option 6月19日 12:00～18:00
+            option 6月20日 10:00～12:00
+            option 6月20日 12:00～18:00
+            option 6月21日 10:00～12:00
+            option 6月21日 12:00～16:00
+        button.btn-submit(type='submit') 立即领取

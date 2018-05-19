@@ -1,0 +1,178 @@
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1')
+    title 正在输入中...
+    title 相约摩天轮 ⽩享一夏
+    script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
+    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
+    link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='./../css/chat.css')
+
+  body
+    - var left = !isGirl ? './../images/thumb-girl.png' : './../images/thumb-boy.png'
+    - var right = isGirl ? './../images/thumb-girl.png' : './../images/thumb-boy.png'
+    .main-header
+      image.notification(src='./../images/notification.png')
+      .group-title
+        .group-title-icon
+          image.icon-back(src='./../images/icon-back.png')
+        .group-title 白享一夏相约摩天轮推广(499)
+        .group-profile
+          image.icon-profile(src='./../images/icon-profile.png')
+    .main-body
+      .body-chat
+        #chat1.chat-line.chat-left-item
+          .chat-thumbnail
+            image.thumbnail(src= left)
+          .chat-content 最近水逆?
+
+        #chat2.chat-time 11:01
+
+        #chat3.chat-line.chat-right-item
+          .chat-content 压力山大~~
+          .chat-thumbnail
+            image.thumbnail(src= right )
+            
+        #chat4.chat-line.chat-left-item
+          .chat-thumbnail
+            image.thumbnail(src= left)
+          .chat-content 一起去坐摩天轮吧，会转运！
+
+        #chat5.chat-line.chat-right-item
+          .chat-content 嘎？
+          .chat-thumbnail
+            image.thumbnail(src= right )
+            
+        #chat6.chat-line.chat-left-item
+          .chat-thumbnail
+            image.thumbnail(src= left)
+          .chat-content 而且你最喜欢的白玉兰也来了。。。
+
+        #chat7.chat-time 11:03
+        #chat8.chat-line.chat-right-item
+          .chat-content 现在是夏天唉～
+          .chat-thumbnail
+            image.thumbnail(src= right )
+            
+        #chat9.chat-line.chat-left-item
+          .chat-thumbnail
+            image.thumbnail(src= left)
+          .chat-content 最是白玉兰上海锦江乐园酒店6/21开业啊
+
+        #chat10.chat-line.chat-left-item
+          .chat-thumbnail
+            image.thumbnail(src= left)
+          .chat-content 有1098元的开业大礼包免费送！
+
+        #chat11.chat-line.chat-left-item
+          .chat-thumbnail
+            image.thumbnail(src= left)
+          .chat-content 108米高的摩天轮免费乘！
+
+        #chat12.chat-line.chat-left-item
+          .chat-thumbnail
+            image.thumbnail(src= left)
+          .chat-content 约不？
+
+        #chat13.chat-line.chat-right-item
+          .chat-content 我感觉我的水逆期已经过了，约！
+          .chat-thumbnail
+            image.thumbnail(src= right )
+        
+        #chat14.chat-time 11:05
+        
+        #chat15.chat-line.chat-left-item
+          .chat-thumbnail
+            image.thumbnail(src= left)
+          //- form(action="http://localhost:3000/gender", method='post', style='margin-bottom: 0;')
+          a.chat-link.notify-box(href='/gift/#{isGirl ? "girl" : "boy"}')
+            .chat-link-thumbnail
+              image.link-thumbnail(src='./../images/chat-thumbnail.png')
+            .chat-link-desc
+              .desc-title 相约摩天轮 白享一夏
+              .desc-intro 白吃！白喝！白玩！白住！白拿礼物！
+            .get-start
+              image.icon-touch(src='./../images/icon-touch.png')
+    .main-footer
+      .icon-item
+        image.footer-icon(src='./../images/icon-voice.png')
+      .icon-item
+        image.footer-icon(src='./../images/icon-plus.png')
+      .input-blank
+      .icon-send       
+        image.footer-icon(src='./../images/icon-send.png')
+
+  script.
+    function texting(display, id) {
+      $(id).fadeIn().css('display', display);
+      $("html,body").animate({scrollTop:$(id).offset().top},500);//1000是ms,也可以用slow代替
+    }
+    $(document).ready(function(){
+      setTimeout(function() {
+        texting('flex', '#chat1');
+        //- $('#chat1').fadeIn().css('display', 'flex');
+      }, 500);
+      setTimeout(function() {
+        texting('block', '#chat2');
+        //- $('#chat2').fadeIn().css('display', 'block');
+      }, 1500);
+      setTimeout(function() {
+        texting('flex', '#chat3');
+        //- $('#chat3').fadeIn().css('display', 'flex');
+      }, 1500);
+      setTimeout(function() {
+        texting('flex', '#chat4');
+        //- $('#chat4').fadeIn().css('display', 'flex');
+      }, 2000);
+      setTimeout(function() {
+        texting('flex', '#chat5');
+        //- $('#chat5').fadeIn().css('display', 'flex');
+      }, 2500);
+      setTimeout(function() {
+        texting('flex', '#chat6');
+        //- $('#chat6').fadeIn().css('display', 'flex');
+      }, 3000);
+      setTimeout(function() {
+        texting('block', '#chat7');
+        //- $('#chat7').fadeIn().css('display', 'block');
+      }, 3500);
+      setTimeout(function() {
+        texting('flex', '#chat8');
+        //- $('#chat8').fadeIn().css('display', 'flex');
+      }, 3500);
+      setTimeout(function() {
+        texting('flex', '#chat9');
+        //- $('#chat9').fadeIn().css('display', 'flex');
+      }, 4000);
+      setTimeout(function() {
+        texting('flex', '#chat10');
+        //- $('#chat10').fadeIn().css('display', 'flex');
+      }, 4500);
+      setTimeout(function() {
+        texting('flex', '#chat11');
+        //- $('#chat11').fadeIn().css('display', 'flex');
+      }, 5000);
+      setTimeout(function() {
+        texting('flex', '#chat12');
+        //- $('#chat12').fadeIn().css('display', 'flex');
+      }, 5500);
+      setTimeout(function() {
+        texting('flex', '#chat13');
+        //- $('#chat13').fadeIn().css('display', 'flex');
+      }, 6000);
+      setTimeout(function() {
+        texting('block', '#chat14');
+        //- $('#chat14').fadeIn().css('display', 'block');
+      }, 6500);
+      setTimeout(function() {
+        $('#chat15').fadeIn().css('display', 'flex');
+        setInterval(function() {
+          $('.chat-link').toggleClass('notify');
+        },500)
+
+        $("html,body").animate({scrollTop:$('#chat15').offset().top},2000);//1000是ms,也可以用slow代替
+      }, 7000);
+    });
+    
+    

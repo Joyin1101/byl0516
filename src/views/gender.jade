@@ -1,0 +1,18 @@
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1')
+    title 请先选择你的性别
+    script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
+    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
+    link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
+  body
+    div(class='container-fluid', style='position: relative; height: 100%; background-color: black')
+      .main-body
+        a.boy(href='/chat/boy')
+          image.thumbnail(src='./../images/thumb-boy.png')
+          
+        a.girl(href='/chat/girl')
+          image.thumbnail(src='./../images/thumb-girl.png')
+
+ 

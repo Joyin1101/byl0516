@@ -1,0 +1,26 @@
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1')
+    title 欢迎来到白玉兰酒店
+    script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
+    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
+    link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='./../css/loading.css')
+  body
+
+    div(class='container-fluid', style='position: relative; height: 100%; background-color: black')
+      .progress
+        .progress-bar(role='progressbar', style="width: 0%", aria-valuenow='75', aria-valuemin='0', aria-valuemax='100')
+      a.start(href='/gender') 开始白玉兰之旅
+  script.
+    var init = 0
+    var progressing = setInterval(function(){
+      init += 10
+      $('.progress-bar').css('width', init + '%')
+      if(init > 100) {
+      clearInterval(progressing);
+      }
+    }, 100);
+
+    //- p= message

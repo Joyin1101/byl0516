@@ -34,6 +34,7 @@
             false
         ],
         "no-empty-interface": false,
+        "no-console": [false, "log"],
         "no-empty": false,
         "arrow-parens": false,
         "object-literal-sort-keys": false,
