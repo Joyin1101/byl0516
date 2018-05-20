@@ -56,11 +56,12 @@
 
 .splash-body {
   /* background-color: white; */
-  background-image: url('./../images/bg-form.png');
-  background-size: cover;
+  background-image: url('./../images/bg-pattern.png');
+  /* background-size: cover; */
+  background-repeat: repeat;
   z-index: 10;
-  position: fixed;
-  height: 100%;
+  position: absolute;
+  /* height: 100%; */
   width: 100%;
   top: 0px;
   display: none;
@@ -80,6 +81,7 @@
 }
 .share-item {
   width: 100%;
+  display: none;
 }
 
 .carousel-control-prev-icon,
@@ -89,12 +91,14 @@
 }
 
 .splash-image {
-  margin-top: 20%;
+  /* margin-top: 20%; */
+  background-color: white;
+  padding-bottom: 4px;
 }
 .splash-share-btn {
   width: 80%;
   height: 100px;
-  margin: 0 auto;
+  margin: 0 auto 10%;
   display: flex;
 }
 
@@ -106,4 +110,8 @@
   color: white;
   background-color: #6AD0DF;
   line-height: 64px;
+}
+
+.shared-one {
+  display: block;
 }

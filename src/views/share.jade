@@ -29,13 +29,14 @@ html
 
       .btn-groups
         a.btn-submit(href='javascript:void(0)',onclick="splash()") 保存并分享
-        a.btn-submit(href='#{jumpTo}') 了解锦江之星
+        a.btn-submit(href='/jump') 了解锦江之星
     .splash-body
-      .gift-body.splash-image
-        image#selectShare.rotate-it.share-item(src='#{share1}')
+      .splash-image
+        image#selectShare1.rotate-it.share-item(src='#{previewShare1}')
+        image#selectShare2.rotate-it.share-item(src='#{previewShare2}')
       //- .splash-tell 长按保存分享给好友
       .splash-share-btn
-        a.btn-submit(href='#{jumpTo}') 了解锦江之星
+        a.btn-submit(href='/jump') 了解锦江之星
   script.
     var currentTab = 0;
     $(document).ready(function(){
@@ -50,7 +51,12 @@ html
 
       $('.splash-body').fadeIn();
       setTimeout(function(){
-        $('#selectShare').attr('src', $('#share'+(currentTab+1)).attr('src')).addClass('rotate-share-item');
+        if (currentTab === 0 ){
+          $('#selectShare1').addClass('rotate-share-item').addClass('shared-one');
+        } else {
+          $('#selectShare2').addClass('rotate-share-item').addClass('shared-one');
+        }
+        $("html,body").animate({scrollTop:0 },1000);//1000是ms,也可以用slow代替
       }, 500);
       //- console.log('did it')
     }

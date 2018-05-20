@@ -9,10 +9,14 @@ const Setting = AV.Object.extend('Setting');
 const LuckyDogs = AV.Object.extend('LuckyDogs');
 const GoldMaster = AV.Object.extend('GoldMaster');
 
-const boy1 = 'http://byl0516.blissr.com.cn/share-boy1.png?';
-const boy2 = 'http://byl0516.blissr.com.cn/share-boy2.png?';
-const girl1 = 'http://byl0516.blissr.com.cn/share-girl1.png?';
-const girl2 = 'http://byl0516.blissr.com.cn/share-girl2.png?';
+const boy1 = 'http://byl0516.blissr.com.cn/boy1.png?';
+const shareBoy1 = 'http://byl0516.blissr.com.cn/share-boy1.png?';
+const boy2 = 'http://byl0516.blissr.com.cn/boy2.png?';
+const shareBoy2 = 'http://byl0516.blissr.com.cn/share-boy2.png?';
+const girl1 = 'http://byl0516.blissr.com.cn/girl1.png?';
+const shareGirl1 = 'http://byl0516.blissr.com.cn/share-girl1.png?';
+const girl2 = 'http://byl0516.blissr.com.cn/girl2.png?';
+const shareGirl2 = 'http://byl0516.blissr.com.cn/share-girl2.png?';
 
 @Controller()
 export class ClientController {
@@ -219,31 +223,54 @@ export class ClientController {
         // console.log(body);
         // const luckyDog = new LuckyDogs();
         // luckDog
-        const setting = new AV.Query('Setting');
-        setting.equalTo('k', 'jumpTo');
-        const jumpTo: any = await setting.first();
 
         let share1 = '';
         let share2 = '';
+        let previewShare1 = '';
+        let previewShare2 = '';
         if (body.gender === 'boy') {
           share1 = boy1 + 'watermark/2/text/';
-          share1 += base64url(body.name + '，人文咖内心很想“嗨”！约不？') + '/font/5a6L5L2T/fontsize/320/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/30/dy/20';
+          share1 += base64url(body.name + ',文艺绅也要“皮”一下!约不?') ;
+          share1 += '/font/5a6L5L2T/fontsize/300/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/20/dy/60';
+
+          previewShare1 = shareBoy1 + 'watermark/2/text/';
+          previewShare1 += base64url(body.name + ',文艺绅也要“皮”一下!约不?') ;
+          previewShare1 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/140';
 
           share2 = boy2 + 'watermark/2/text/';
-          share2 += base64url(body.name) + '/font/5a6L5L2T/fontsize/360/fill/IzRBNEE0QQ==/dissolve/100/gravity/NorthWest/dx/100/dy/32';
+          share2 += base64url(body.name + ',人文咖内心很想“嗨”!约不?') ;
+          share2 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/45';
+
+          previewShare2 = shareBoy2 + 'watermark/2/text/';
+          previewShare2 += base64url(body.name + ',人文咖内心很想“嗨”!约不?') ;
+          previewShare2 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/94';
+
         } else {
+          console.log(body.name);
           share1 = girl1 + 'watermark/2/text/';
-          share1 += base64url(body.name + '，人文咖内心很想“嗨”！约不？') + '/font/5a6L5L2T/fontsize/320/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/30/dy/20';
+          share1 += base64url(body.name + ',娇嗲任性够顽皮！敢约吗?') ;
+          share1 += '/font/5a6L5L2T/fontsize/300/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/20/dy/60';
+
+          previewShare1 = shareGirl1 + 'watermark/2/text/';
+          previewShare1 += base64url(body.name + ',娇嗲任性够顽皮！敢约吗?') ;
+          previewShare1 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/140';
 
           share2 = girl2 + 'watermark/2/text/';
-          share2 += base64url(body.name) + '/font/5a6L5L2T/fontsize/360/fill/IzRBNEE0QQ==/dissolve/100/gravity/NorthWest/dx/100/dy/32';
+          share2 += base64url(body.name + ',精致女生都是完美控！敢约吗?');
+          share2 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/45';
+
+          previewShare2 = shareGirl2 + 'watermark/2/text/';
+          previewShare2 += base64url(body.name + ',精致女生都是完美控！敢约吗?');
+          previewShare2 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/94';
+
         }
         // console.log(url);
 
         res.render('share', {
-          jumpTo: jumpTo.get('v') ,
           share1,
           share2,
+          previewShare1,
+          previewShare2,
         });
 
       } else {
@@ -261,8 +288,17 @@ export class ClientController {
 
   // operation
   @Get('jump')
-  jump(@Res() res) {
-    res.redirect('http://www.baidu.com/');
+  async jump(@Res() res, @Req() req) {
+    const setting = new AV.Query('Setting');
+    setting.equalTo('k', 'jumpTo');
+    const jumpTo: any = await setting.first();
+
+    const goldMaster = new GoldMaster();
+    const ua = req.headers['user-agent'];
+    goldMaster.set('ua', ua);
+    await goldMaster.save();
+    // res.redirect('/loading/test');
+    res.redirect(jumpTo.get('v'));
   }
 
   // Test part
