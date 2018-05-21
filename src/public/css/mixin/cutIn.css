@@ -1,0 +1,14 @@
+.scene {
+  height: 100%;
+  position: fixed;
+  background-color: white;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+.cutIn {
+  display: block;
+}
+.cutOut{
+  display: none;
+}

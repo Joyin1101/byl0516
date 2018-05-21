@@ -7,7 +7,10 @@ html
     script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
     link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
     link(rel='stylesheet', type='text/css', href='./../css/loading.css')
+    link(rel='stylesheet', type='text/css', href='./../css/mixin/cutIn.css')
   body
+    include mixin/cutTo.jade
+    +cutOut()
     .share-thumb
       image(src='./../images/share-thumb.png', style='width:0px;height:0px;overflow:hidden;')
     .main-body
@@ -33,9 +36,14 @@ html
       if(init > 200) {
         $('.progress').css('display', 'none');
         setTimeout(function() {
-          $('.btn-reward').fadeIn().css('display', 'block');
+          $('.cutOut').fadeIn().css('display', 'block');
+          setTimeout(function() {
+            console.log(window.location.href);
+            $(window).attr('location','../chat');
+          }, 1000)
+          clearInterval(progressing);
+          //- $('.btn-reward').fadeIn().css('display', 'block');
         }, 500)
-        clearInterval(progressing);
       }
     }, 100);
 

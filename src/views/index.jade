@@ -4,7 +4,16 @@ html
     meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1')
     title 白玉兰
     script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
-    script(type='text/javascript', src='./../js/lib/jquery-ui.min.js')
+    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
+    link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='./../css/mixin/wheel.css')
   body
     div(style='position: relative; height: 100%; background-color: black')
+      include mixin/wheel.jade
     //- p= message
+  script.
+    $carousel = $('#js-ferris-wheel')
+      $('#js-button').on('click', function(){
+        $carousel.toggleClass('is-open');
+      });
+

@@ -2,7 +2,7 @@
   position: relative; 
   width: 100%; 
   background: url('./../images/bg.png'); 
-  background-size: contain;
+  background-size: cover;
 }
 
 .gift-header {
@@ -96,54 +96,9 @@
   padding: 2% 0;
 }
 
-.gift-item {
-  display: flex;
-  flex-direction: row;
-  margin-top: 10px;
-}
-
-.item-main {
-  flex-grow: 3;
-  background-color: white;
-  border-radius: 6px 10px 10px 6px;
-  border-right: grey dashed 1px;
-}
-
-.item-main-title {
-  margin: 20px 0 10px 20px;
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.item-main-desc {
-  margin: 10px 0 20px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #FF6333;
-}
-
 .item-main-desc span {
   font-size: 12px;
   font-weight: 500;
-}
-
-.item-sub {
-  
-  background-color: #FF6333;
-  border-radius: 10px 6px 6px 10px;
-  
-  width: 100px;
-  position: relative;
-}
-
-.item-sub-icon {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  top: 50%;
-  left: 50%;
-  margin-top: -25px;
-  margin-left: -25px;
 }
 
 .gift-rule {

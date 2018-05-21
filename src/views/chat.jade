@@ -8,10 +8,14 @@ html
     script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
     link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
     link(rel='stylesheet', type='text/css', href='./../css/chat.css')
+    link(rel='stylesheet', type='text/css', href='./../css/mixin/cutIn.css')
 
   body
-    - var left = !isGirl ? './../images/thumb-girl.png' : './../images/thumb-boy.png'
-    - var right = isGirl ? './../images/thumb-girl.png' : './../images/thumb-boy.png'
+    - var left = './../images/thumb-girl.png'
+    - var right = './../images/thumb-boy.png'
+    include mixin/cutTo.jade
+    +cutIn()
+    +cutOut()
     .main-header
       image.notification(src='./../images/notification.png')
       .group-title
@@ -110,58 +114,61 @@ html
       $("html,body").animate({scrollTop:$(id).offset().top},500);//1000是ms,也可以用slow代替
     }
     $(document).ready(function(){
+      var timeDelay = 1000;
+      $('.cutIn').fadeOut('slow');
+
       setTimeout(function() {
         texting('block', '#chat1');
         //- $('#chat1').fadeIn().css('display', 'flex');
-      }, 500);
+      }, timeDelay + 500);
       setTimeout(function() {
         texting('flex', '#chat2');
         //- $('#chat2').fadeIn().css('display', 'block');
-      }, 500);
+      }, timeDelay + 500);
       setTimeout(function() {
         texting('flex', '#chat3');
         //- $('#chat3').fadeIn().css('display', 'flex');
-      }, 1500);
+      }, timeDelay + 1500);
       setTimeout(function() {
         texting('flex', '#chat4');
         //- $('#chat4').fadeIn().css('display', 'flex');
-      }, 2500);
+      }, timeDelay + 2500);
       setTimeout(function() {
         texting('flex', '#chat5');
         //- $('#chat5').fadeIn().css('display', 'flex');
-      }, 3500);
+      }, timeDelay + 3500);
       setTimeout(function() {
         texting('flex', '#chat6');
         //- $('#chat6').fadeIn().css('display', 'flex');
-      }, 4500);
+      }, timeDelay + 4500);
       setTimeout(function() {
         texting('block', '#chat7');
         //- $('#chat7').fadeIn().css('display', 'block');
-      }, 5500);
+      }, timeDelay + 5500);
       setTimeout(function() {
         texting('flex', '#chat8');
         //- $('#chat8').fadeIn().css('display', 'flex');
-      }, 5500);
+      }, timeDelay + 5500);
       setTimeout(function() {
         texting('flex', '#chat9');
         //- $('#chat9').fadeIn().css('display', 'flex');
-      }, 6500);
+      }, timeDelay + 6500);
       setTimeout(function() {
         texting('flex', '#chat10');
         //- $('#chat10').fadeIn().css('display', 'flex');
-      }, 7500);
+      }, timeDelay + 7500);
       setTimeout(function() {
         texting('flex', '#chat11');
         //- $('#chat11').fadeIn().css('display', 'flex');
-      }, 8500);
+      }, timeDelay + 8500);
       setTimeout(function() {
         texting('flex', '#chat12');
         //- $('#chat12').fadeIn().css('display', 'flex');
-      }, 9500);
+      }, timeDelay + 9500);
       setTimeout(function() {
         texting('flex', '#chat13');
         //- $('#chat13').fadeIn().css('display', 'flex');
-      }, 10500);
+      }, timeDelay + 11500);
       setTimeout(function() {
         texting('block', '#chat14');
         //- $('#chat14').fadeIn().css('display', 'block');
@@ -171,9 +178,14 @@ html
         setInterval(function() {
           $('.chat-link').toggleClass('notify');
         },500)
-
         $("html,body").animate({scrollTop:$('#chat15').offset().top},2000);//1000是ms,也可以用slow代替
-      }, 11500);
+        setTimeout(function() {
+          setTimeout(function(){
+            $('.cutOut').fadeIn().css('display', 'block');           
+          }, 500)
+          $(window).attr('location','../gift');
+        }, 2000)
+      }, timeDelay + 11500);
     });
     
     

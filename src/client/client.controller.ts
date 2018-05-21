@@ -3,6 +3,8 @@ import { ClientService } from './client.service';
 import AV = require('leancloud-storage');
 import moment = require('moment');
 import base64url from 'base64url';
+import rp = require('request-promise');
+// import {encode} from 'base64-url';
 // import { shareBoy1 } from './../helper/shareItem.js';
 const PageViewLogger = AV.Object.extend('PageViewLogger');
 const Setting = AV.Object.extend('Setting');
@@ -20,12 +22,17 @@ const shareGirl2 = 'http://byl0516.blissr.com.cn/share-girl2.png?';
 
 @Controller()
 export class ClientController {
-  constructor(private readonly appService: ClientService) {}
+  constructor(private readonly clientService: ClientService) {}
 
   @Get()
   async root() {
     return 'Hi 白玉兰';
   }
+  @Get('wheel')
+  async wheel(@Res() res) {
+    res.render('index');
+  }
+
   @Get('MP_verify_i81jI4DRd4D2xwG3.txt')
   async mp() {
     return 'i81jI4DRd4D2xwG3';
@@ -49,126 +56,34 @@ export class ClientController {
     const res = await AV.Object.saveAll([setTotal, setDaily, setJump]);
     console.log(res);
     return 'done';
-
-    // const luckyList = new AV.Query('LuckyList');
-    // const setting = new AV.Query('Setting');
-    // luckyList.greaterThan('createdAt', );
-
-    // return moment(moment().format('l'));
   }
 
   // 首页loading页面
   @Get('loading/:source')
   async loading(@Res() res, @Req() req, @Param() param) {
     if (param.source !== 'test') {
-
-      const ua = req.headers['user-agent'];
-      const PVL = new PageViewLogger();
-
-      PVL.set('source', param.source);
-      PVL.set('ua', ua);
-
-      if (ua.indexOf('MicroMessenger') > -1) {
-        // 是否是微信
-        PVL.set('Weixin', 1);
-      }
-      if (ua.indexOf('WeiBo') > -1) {
-        // 是否是微博
-        PVL.set('Weibo', 1);
-      }
-      if (!!ua.match(/AppleWebKit.*Mobile.*/) || !!ua.match(/AppleWebKit/)) {
-        // 是否为移动终端
-        PVL.set('Mobile', 1);
-      }
-      if (!!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
-        // ios终端
-        PVL.set('iOS', 1);
-      }
-      if (ua.indexOf('Android') > -1 ) {
-        // android终端
-        PVL.set('Android', 1);
-      }
-      if ( ua.indexOf('iPhone') > -1 ) {
-        // 是否为iPhone
-        PVL.set('iPhone', 1);
-      }
-      if ( ua.indexOf('iPad') > -1 ) {
-        // 是否iPad
-        PVL.set('iPad', 1);
-      }
-      await PVL.save();
+      await this.clientService.collectUa(req.headers['user-agent'], param.source);
     }
-
-    res.render('loading', { message: 'Hello world!' });
+    res.render('loading');
+  }
+  @Get('loading')
+  async loadingRedirect(@Res() res, @Req() req, @Param() param) {
+    res.redirect('loading/pageshare');
   }
 
-  // 选择性别
-  @Get('gender')
-  testGender(@Res() res) {
-    // console.log(body);
-    // console.log(req);
-    res.render('gender');
+  // 聊天页面
+  @Get('chat')
+  async chat(@Res() res){
+    res.render('chat');
   }
 
-  // 聊天性别
-  @Get('chat/:gender')
-  index(@Res() res, @Param() param) {
-    if (param.gender === 'girl') {
-      res.render('chat', { isGirl: true});
-    } else {
-      res.render('chat', { isGirl: false });
-    }
+  // 大礼包
+  @Get('gift')
+  async gift(@Res() res){
+    res.render('gift');
   }
 
-  // 选择礼物页面
-  @Get('gift/:gender')
-  async gift(@Res() res, @Param() param){
-    // 获得全部奖品数量
-    const luckyList = new AV.Query('LuckyDogs');
-    luckyList.equalTo('type', 'bag');
-    const totalBag = await luckyList.count();
-
-    // 获得预设奖品数量
-    const setting = new AV.Query('Setting');
-    setting.equalTo('k', 'total');
-    const presetTotal: any = await setting.first();
-
-    if (totalBag <= parseInt(presetTotal.get('v'), 10)) {
-      // console.log(new Date(moment(moment().format('l'), 'MM/DD/YYYY', false).format()));
-      luckyList.greaterThanOrEqualTo('createdAt', new Date(moment(moment().format('l'), 'MM/DD/YYYY', false).format()));
-      luckyList.lessThan('createdAt', new Date(moment(moment().add(1, 'd').format('l'), 'MM/DD/YYYY', false).format()));
-      const rlt = await luckyList.count();
-
-      setting.equalTo('k', 'daily');
-      const preference: any = await setting.first();
-      console.log(preference.get('v'));
-      console.log(rlt);
-
-      if ( rlt < parseInt(preference.get('v'), 10)){
-        console.log('hasgift');
-        res.render('gift', { hasGift: true, gender: param.gender });
-      } else {
-        res.render('gift', { hasGift: false, gender: param.gender });
-      }
-    } else {
-      res.render('gift', { hasGift: false, gender: param.gender });
-    }
-
-    // preference.get('daily');
-
-  }
-
-  // @Post('form')
-  // form(@Res() res, @Query() query){
-  //   // console.log(body);
-  //   res.render('form', {
-  //     gender: query.gender,
-  //     type: query.type,
-  //     error: '',
-  //     name: '',
-  //     phone: '',
-  //   });
-  // }
+  // 填写表格
   @Get('form')
   testForm(@Res() res, @Query() query){
     // console.log(query);
@@ -183,103 +98,42 @@ export class ClientController {
 
   @Post('success')
   async share(@Res() res, @Body() body){
-    console.log(body);
-    const checkItem = {
-      gender: body.gender,
-      type: body.type,
-      error: '',
-      name: body.name,
-      phone: body.phone,
-    };
-    if (body.name == null ) {
-      checkItem.error = 'name';
-      res.render('form', checkItem);
-      return false;
-    } else if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(body.phone))){
-      checkItem.error = 'phone';
-      res.render('form', checkItem);
-      return false;
-    }else if (body.pick === '请选择可参与的时间段') {
-      checkItem.error = 'date';
-      res.render('form', checkItem);
-      return false;
+    const availableStatus: any = await this.clientService.checkFormAvailable(body);
+
+    if (availableStatus.error === '' ){
+      res.render('form', availableStatus);
     } else {
-      const queryDog = new AV.Query('LuckyDogs');
-      queryDog.equalTo('phone', body.phone);
-      const isDouble = await queryDog.count();
-      console.log(body.phone);
-      console.log(isDouble);
-
-      if (isDouble < 1 ){
-        const luckDog = new LuckyDogs();
-        luckDog.set('type', body.type);
-        luckDog.set('gender', body.gender);
-        luckDog.set('name', body.name);
-        luckDog.set('phone', body.phone);
-        luckDog.set('pickDate', body.pick.split(' ')[0]);
-        luckDog.set('pickTime', body.pick.split(' ')[1]);
-        await luckDog.save();
-
-        // console.log(body);
-        // const luckyDog = new LuckyDogs();
-        // luckDog
-
-        let share1 = '';
-        let share2 = '';
-        let previewShare1 = '';
-        let previewShare2 = '';
-        if (body.gender === 'boy') {
-          share1 = boy1 + 'watermark/2/text/';
-          share1 += base64url(body.name + ',文艺绅也要“皮”一下!约不?') ;
-          share1 += '/font/5a6L5L2T/fontsize/300/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/20/dy/60';
-
-          previewShare1 = shareBoy1 + 'watermark/2/text/';
-          previewShare1 += base64url(body.name + ',文艺绅也要“皮”一下!约不?') ;
-          previewShare1 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/140';
-
-          share2 = boy2 + 'watermark/2/text/';
-          share2 += base64url(body.name + ',人文咖内心很想“嗨”!约不?') ;
-          share2 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/45';
-
-          previewShare2 = shareBoy2 + 'watermark/2/text/';
-          previewShare2 += base64url(body.name + ',人文咖内心很想“嗨”!约不?') ;
-          previewShare2 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/94';
-
+      const isSerial = await this.clientService.checkIsSerial(body.phone);
+      if (isSerial) {
+        await this.clientService.saveLuckDog(body, 'bag');
+        await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+        res.render('success', 1);
+      }else {
+        const hasGift = await this.clientService.hasGift();
+        if (hasGift) {
+          const isFirst = await this.clientService.checkIsFirst(body.phone);
+          if (isFirst) {
+            await this.clientService.saveLuckDog(body, 'bag');
+            await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+            res.render('success', 1);
+          } else {
+            const ifGotDrink = await this.clientService.hasGotDrink(body.phone);
+            if (!ifGotDrink) {
+              // 今天没拿过饮料
+              await this.clientService.sendMessageToUser(body.phone, 'ticket', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+              await this.clientService.saveLuckDog(body, 'ticket');
+              res.render('success', 2);
+            } else {
+              res.render('success', 0);
+            }
+          }
         } else {
-          console.log(body.name);
-          share1 = girl1 + 'watermark/2/text/';
-          share1 += base64url(body.name + ',娇嗲任性够顽皮！敢约吗?') ;
-          share1 += '/font/5a6L5L2T/fontsize/300/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/20/dy/60';
-
-          previewShare1 = shareGirl1 + 'watermark/2/text/';
-          previewShare1 += base64url(body.name + ',娇嗲任性够顽皮！敢约吗?') ;
-          previewShare1 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/140';
-
-          share2 = girl2 + 'watermark/2/text/';
-          share2 += base64url(body.name + ',精致女生都是完美控！敢约吗?');
-          share2 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/45';
-
-          previewShare2 = shareGirl2 + 'watermark/2/text/';
-          previewShare2 += base64url(body.name + ',精致女生都是完美控！敢约吗?');
-          previewShare2 += '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/94';
-
+          res.render('success', 2);
         }
-        // console.log(url);
-
-        res.render('share', {
-          share1,
-          share2,
-          previewShare1,
-          previewShare2,
-        });
-
-      } else {
-        checkItem.error = 'phone';
-        res.render('form', checkItem);
       }
-
+      // await this.clientService.saveLuckDog(body, 'ticket');
+      // await this.clientService.sendMessageToUser(body.phone, type, body.pick.split(' ')[0], body.pick.split(' ')[1]);
     }
-
   }
   @Get('success')
   shareIn(@Res() res) {
@@ -289,45 +143,22 @@ export class ClientController {
   // operation
   @Get('jump')
   async jump(@Res() res, @Req() req) {
-    const setting = new AV.Query('Setting');
-    setting.equalTo('k', 'jumpTo');
-    const jumpTo: any = await setting.first();
-
-    const goldMaster = new GoldMaster();
+    const jumpTo = await this.clientService.querySetting('jumpTo');
     const ua = req.headers['user-agent'];
-    goldMaster.set('ua', ua);
-    await goldMaster.save();
-    // res.redirect('/loading/test');
-    res.redirect(jumpTo.get('v'));
+    await this.clientService.jumpToGoldMaster(ua);
+    res.redirect(jumpTo);
   }
 
-  // Test part
-  @Get('test-redis')
-  testRedis(): string {
-    const AVRedis = 'REDIS_URL_HaTP9qLw8N';
-    const client = require('redis').createClient(process.env[AVRedis]);
-    // client.set('test', 'ttttt');
-    // client.set('test1', 1);
-    client.incr('test1');
-    client.on('error', (err) => {
-      return console.error('redis err: %s', err);
-    });
-    client;
-    return this.appService.root();
-  }
-  @Get('test-jade')
-  testJade(@Res() res) {
-    res.render('index', { message: 'Hello world!' });
-  }
-  @Get('./test-msg')
-  async testMsg(@Res() res) {
+  // test
+  @Get('test')
+  async test(@Req() req) {
+    const options = {
+      method: 'GET',
+      uri: 'https://www.easy-mock.com/mock/5b02ebfa6c3270356c903720/example/query',
+  };
+    const res = await rp(options);
 
-    await AV.Cloud.requestSmsCode({
-      mobilePhoneNumber: '186xxxxxxxx',
-      template: 'Order_Notice',
-      sign: 'sign_BuyBuyBuy',
-    });
-
-    return this.appService.root();
+    console.log(res);
+    return true;
   }
 }
