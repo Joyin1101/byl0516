@@ -4,6 +4,8 @@ import AV = require('leancloud-storage');
 import moment = require('moment');
 import base64url from 'base64url';
 import rp = require('request-promise');
+import http = require('http');
+// import { get } from 'axios';
 // import {encode} from 'base64-url';
 // import { shareBoy1 } from './../helper/shareItem.js';
 const PageViewLogger = AV.Object.extend('PageViewLogger');
@@ -155,13 +157,75 @@ export class ClientController {
   // test
   @Get('test')
   async test(@Req() req) {
-    const options = {
-      method: 'GET',
-      uri: 'https://www.easy-mock.com/mock/5b02ebfa6c3270356c903720/example/query',
-  };
-    const res = await rp(options);
+  //   const options = {
+  //     method: 'GET',
+  //     uri: 'https://www.easy-mock.com/mock/5b02ebfa6c3270356c903720/example/query',
+  // };
+  //   const res = await rp(options);
 
-    console.log(res);
-    return true;
+    // console.log(res.headers);
+    console.log(req.headers);
+    // console.log(req.headers['x-real-ip']);
+    return req.headers;
+  }
+  // @Get('test/1')
+  // async testGet(@Req() req) {
+  //   let uri = 'http://wxcj.jj-inn.com/api/ActivityApi/JJSendMsg?';
+  //   // const ip = req.headers['x-real-ip'] ? req.headers['x-real-ip'] : req.ip.replace(/::ffff:/, '');
+  //   console.log(req.headers);
+  //   try {
+  //     uri += 'tel=18721558772&content=';
+  //     uri += encodeURIComponent('恭喜您成功预约领取“相约摩天轮 白享一夏白”大礼包，请在x月x日 xx：xx～xx：xx 本人前往虹梅路227号白玉兰上海锦江乐园酒店，出示本短信完成签到注册步骤后即可领取礼包。咨询热线：400-820-9999');
+  //     uri += '&typecode=BYLHD';
+  //     // uri = encodeURI(uri);
+  //     // uri = encodeURIComponent(uri);
+  //     const options = {
+  //       method: 'GET',
+  //       uri,
+  //     };
+  //     const r = await rp(options);
+  //     console.log(r);
+  //     return {
+  //       r,
+  //       uri,
+  //       // req,
+  //     };
+
+  //   } catch (err) {
+  //     return {
+  //       uri,
+  //       err,
+  //       // req,
+  //     };
+  //   }
+  // }
+  @Get('test/:id')
+  async testPost(@Req() req, @Param() param) {
+    // const uri = 'http://wxcj.jj-inn.com/api/ActivityApi/JJSendMsg?tel=18721558772&content=本人前往虹梅路227号白玉兰上海锦江乐园酒店&typecode=BYLHD';
+    let uri = 'http://wxcj.jj-inn.com/api/ActivityApi/JJSendMsg?';
+    uri += 'tel=18721558772&content=';
+    uri += encodeURIComponent('恭喜您成功预约领取“相约摩天轮 白享一夏白”大礼包，请在x月x日 xx：xx～xx：xx 本人前往虹梅路227号白玉兰上海锦江乐园酒店，出示本短信完成签到注册步骤后即可领取礼包。咨询热线：400-820-9999');
+    uri += '&typecode=BYLHD';
+    // const uri = 'http://www.baidu.com/';
+    try {
+      if (param.id === '1'){
+        const res = await rp({
+          method: 'GET',
+          uri,
+          // headers: {
+          //   'Content-Type': 'text/html',
+          // },
+        });
+        return {
+          res,
+          uri,
+        };
+      }
+  } catch (err) {
+    return {
+      uri,
+      err,
+    };
+  }
   }
 }

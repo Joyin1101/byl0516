@@ -226,9 +226,9 @@ export class ClientService {
   async sendMessageToUser(phone, type, date, time): Promise<boolean> {
     let content = '';
     if (type === 'bag') {
-      content = '恭喜！成功预约领取白玉兰上海锦江乐园酒店开业大礼包！短信已发送到您手机，请凭短信在预约领取时段前往酒店签到领取。';
+      content = `恭喜您成功预约领取“相约摩天轮 白享一夏白”大礼包，请在${date} ${date} 本人前往虹梅路227号白玉兰上海锦江乐园酒店，出示本短信完成签到注册步骤后即可领取礼包。咨询热线：400-820-9999`;
     }else {
-      content = '预约成功短信验证文案: “恭喜您成功预约领取“相约摩天轮 白享一夏白”大礼包，请在x月x日 xx：xx～xx：xx 本人前往虹梅路227号白玉兰上海锦江乐园酒店，出示本短信完成签到注册步骤后即可领取礼包。咨询热线：400-820-9999”';
+      content = `恭喜您成功预约领取“相约摩天轮 白享一夏白”饮料券，请在${date} ${date} 本人前往虹梅路227号白玉兰上海锦江乐园酒店，出示本短信完成签到注册步骤后即可领取礼包。咨询热线：400-820-9999`;
     }
     const jjUrl = `http://wxcj.jj-inn.com/api/ActivityApi/JJSendMsg?tel=${phone}&content=${content}&typecode=BYLHD`;
     let feedback = true;
