@@ -105,22 +105,25 @@ export class ClientController {
     } else {
       const isSerial = await this.clientService.checkIsSerial(body.phone);
       if (isSerial) {
+        // const feedback = await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+        // body.SMSState = feedback;
         await this.clientService.saveLuckDog(body, 'bag');
-        await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
         res.render('success', 1);
       }else {
         const hasGift = await this.clientService.hasGift();
         if (hasGift) {
           const isFirst = await this.clientService.checkIsFirst(body.phone);
           if (isFirst) {
+            // const feedback = await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+            // body.SMSState = feedback;
             await this.clientService.saveLuckDog(body, 'bag');
-            await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
             res.render('success', 1);
           } else {
             const ifGotDrink = await this.clientService.hasGotDrink(body.phone);
             if (!ifGotDrink) {
               // 今天没拿过饮料
-              await this.clientService.sendMessageToUser(body.phone, 'ticket', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+              // const feedback = await this.clientService.sendMessageToUser(body.phone, 'ticket', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+              // body.SMSState = feedback;
               await this.clientService.saveLuckDog(body, 'ticket');
               res.render('success', 2);
             } else {

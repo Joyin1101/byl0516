@@ -23,6 +23,23 @@
     flex-direction: row;
 }
 
+.check-item {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: center;
+}
+.check-item-input{
+  margin: 0 auto;
+}
+.check-item-label {
+
+}
+.radioThumb {
+  width: 50px;
+  margin: 0 auto;
+}
+
 .phone-label {
   line-height: 54px;
     margin: 0;
@@ -36,7 +53,7 @@
     font-size: 18px;
 }
 
-.form-group input {
+.form-group-input {
   width: 100%;
   background-color: #F1F7F8;
   border: 0;

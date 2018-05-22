@@ -246,6 +246,6 @@ export class ClientService {
       }
     }
 
-    return true;
+    return feedback;
   }
 }

@@ -14,17 +14,28 @@ html
       form.body-form(action="/success", method='post', style='margin-bottom: 0;')
         .form-group(style='display: none')
           input#item-name(name='type', value='#{type}')
-        .form-group(style='display: none')
-          input#item-name(name='gender', value='#{gender}')
+        .form-group
+          //- input#item-name(name='gender', value='#{gender}')
+          .check-item
+            image.radioThumb(src='./../images/thumb-boy.png')
+            label.check-item-label(for='exampleRadios1')
+              | 我是玉先生
+            input#exampleRadios1.check-item-input(type='radio', name='gender', value='boy', checked='')
+          .check-item
+            image.radioThumb(src='./../images/thumb-girl.png')
+            label.check-item-label(for='exampleRadios2')
+              | 我是兰小姐
+            input#exampleRadios2.check-item-input(type='radio', name='gender', value='girl')
+
         if error === 'name'
           .error-msg * 姓名有误
         .form-group
-          input#item-name(type='phone', placeholder='请填写你的姓名', value='#{name}', name='name')
+          input#item-name.form-group-input(type='phone', placeholder='请填写你的姓名', value='#{name}', name='name')
         if error === 'phone'
           .error-msg * 手机号输入有误或已参与
         .form-group
           label.phone-label(for='item-phone') +86
-          input#item-phone(type='phone', placeholder='请输入手机号',value='#{phone}', name='phone')
+          input#item-phone.form-group-input(type='phone', placeholder='请输入手机号',value='#{phone}', name='phone')
         if error === 'date'
           .error-msg * 日期选择有误
         .form-group
