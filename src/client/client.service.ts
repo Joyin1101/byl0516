@@ -114,7 +114,7 @@ export class ClientService {
     }
   }
 
-  async hasGotDrink(phone): Promise<boolean> {
+  async isGotToday(phone): Promise<boolean> {
     const luckyDog = new AV.Query('LuckDogs');
     luckyDog.greaterThanOrEqualTo('createdAt', new Date(moment(moment().format('l'), 'MM/DD/YYYY', false).format()));
     luckyDog.lessThan('createdAt', new Date(moment(moment().add(1, 'd').format('l'), 'MM/DD/YYYY', false).format()));
@@ -231,7 +231,7 @@ export class ClientService {
       content = `恭喜您成功预约领取“相约摩天轮 白享一夏白”饮料券，请在${date} ${date} 本人前往虹梅路227号白玉兰上海锦江乐园酒店，出示本短信完成签到注册步骤后即可领取礼包。咨询热线：400-820-9999`;
     }
     const jjUrl = `http://wxcj.jj-inn.com/api/ActivityApi/JJSendMsg?tel=${phone}&content=${content}&typecode=BYLHD`;
-    let feedback = true;
+    let feedback;
     const options = {
       method: 'GET',
       uri: jjUrl,
@@ -240,12 +240,15 @@ export class ClientService {
 
     while (feedback){
       feedback = await rp(options);
+      if (feedback === 'true') feedback = true;
+      if (feedback === 'false') feedback = false;
       count ++;
       if (count > 3){
-        feedback = false;
+        feedback = false ;
       }
     }
 
     return feedback;
   }
+
 }

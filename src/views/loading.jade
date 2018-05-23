@@ -3,48 +3,83 @@ html
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1')
     title 相约摩天轮 ⽩享一夏
-    script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
-    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
     link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
     link(rel='stylesheet', type='text/css', href='./../css/loading.css')
     link(rel='stylesheet', type='text/css', href='./../css/mixin/cutIn.css')
+    script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
+    script(type='text/javascript', src='./../js/lib/baidu.js')
+    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
   body
     include mixin/cutTo.jade
     +cutOut()
     .share-thumb
       image(src='./../images/share-thumb.png', style='width:0px;height:0px;overflow:hidden;')
     .main-body
+      .loading-brand
+        image(src='./../images/loading-brand.png', style='width: 100px; ')
       .gift-header
-        image.gift-title(src='./../images/title.png')
-      .gift-subtitle 6月21日 白玉兰上海锦江乐园酒店开业
+        image.gift-title(src='./../images/loading-title.png')
+      .gift-subtitle 5月25日-6月21日
+      .gift-subtitle 白玉兰品牌旗舰店邀您白享一夏
       .gift-body
         .pocket
-          //- image.red-bag(src='./../images/red-bag.png')
-          .bag-title
-            span.title-unit ￥
-            | 1098
-            //- a.btn-reward(href='/form?type=bag&gender=#{gender}') 立即领取
-            .bag-subtitle 白吃！白喝！白玩！白住！白拿礼物！
-            .progress
-              .progress-bar(role='progressbar', style="width: 0%", aria-valuenow='75', aria-valuemin='0', aria-valuemax='100')
-            a.btn-reward.hide-element(href='/gender') 立即领取
+          image#loading-aside1.asides(src='./../images/loading-aside1.png')
+          image#loading-aside2.asides(src='./../images/loading-aside2.png')
+          image#loading-aside3.asides(src='./../images/loading-aside3.png')
+          image#loading-aside4.asides(src='./../images/loading-aside4.png')
+        .pocket-bg
+      //- .progress
+      //-   .progress-bar(role='progressbar', style="width: 0%", aria-valuenow='75', aria-valuemin='0', aria-valuemax='100')
+          //- a.btn-reward.hide-element(href='/gender') 立即领取
   script.
-    var init = 0
-    var progressing = setInterval(function(){
-      init += 10
-      $('.progress-bar').css('width', init + '%')
-      if(init > 200) {
-        $('.progress').css('display', 'none');
-        setTimeout(function() {
+    
+    var hasLook = window.localStorage.getItem('hasLook');
+    console.log(!hasLook);
+    if ( !hasLook ) {
+      window.localStorage.setItem('hasLook', true);
+
+      var init = 0
+      var prg = 0
+      var progressing = setInterval(function(){
+        prg += 1
+        $('.progress-bar').css('width', prg + '%')
+        if(prg === 100) {
+          //- $('.progress').css('display', 'none');
+          setTimeout(function() {
+            $('.progress').fadeOut(2000);
+          }, 1000)
+        } else if (prg > 115) {
+          console.log(prg);
+          clearInterval(progressing);
           $('.cutOut').fadeIn().css('display', 'block');
           setTimeout(function() {
             console.log(window.location.href);
             $(window).attr('location','../chat');
-          }, 1000)
-          clearInterval(progressing);
-          //- $('.btn-reward').fadeIn().css('display', 'block');
-        }, 500)
-      }
-    }, 100);
+          }, 500)
+        }
+      }, 100);
+
+      var asides = setInterval(function(){
+        init += 1
+        if (init  === 1) {
+          $('.pocket-bg').fadeIn();
+        }
+
+        console.log('#loading-aside' + init);
+        $('#loading-aside' + (init - 1) ).fadeOut(500)
+        setTimeout(function() {
+          $('#loading-aside' + init).fadeIn(500)
+        }, 1000)
+
+        if(init > 3) {
+          //- $('.progress').css('display', 'none');
+          clearInterval(asides);
+        }
+      }, 2000);
+    } else {
+      $(window).attr('location','../gift');
+    }
+
+
 
     //- p= message

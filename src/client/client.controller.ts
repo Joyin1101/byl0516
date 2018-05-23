@@ -30,11 +30,8 @@ export class ClientController {
   async root() {
     return 'Hi 白玉兰';
   }
-  @Get('wheel')
-  async wheel(@Res() res) {
-    res.render('index');
-  }
 
+  // 微信校验
   @Get('MP_verify_i81jI4DRd4D2xwG3.txt')
   async mp() {
     return 'i81jI4DRd4D2xwG3';
@@ -44,21 +41,22 @@ export class ClientController {
     return 'i81jI4DRd4D2xwG3';
   }
 
-  @Post('init')
-  async init() {
-    const setTotal = new Setting();
-    setTotal.set('k', 'total');
-    setTotal.set('v', '10');
-    const setDaily = new Setting();
-    setDaily.set('k', 'daily');
-    setDaily.set('v', '3');
-    const setJump = new Setting();
-    setJump.set('k', 'jumpTo');
-    setJump.set('v', 'http://byl0516.leanapp.cn/');
-    const res = await AV.Object.saveAll([setTotal, setDaily, setJump]);
-    console.log(res);
-    return 'done';
-  }
+  // 服务器初始化
+  // @Post('init')
+  // async init() {
+  //   const setTotal = new Setting();
+  //   setTotal.set('k', 'total');
+  //   setTotal.set('v', '10');
+  //   const setDaily = new Setting();
+  //   setDaily.set('k', 'daily');
+  //   setDaily.set('v', '3');
+  //   const setJump = new Setting();
+  //   setJump.set('k', 'jumpTo');
+  //   setJump.set('v', 'http://byl0516.leanapp.cn/');
+  //   const res = await AV.Object.saveAll([setTotal, setDaily, setJump]);
+  //   console.log(res);
+  //   return 'done';
+  // }
 
   // 首页loading页面
   @Get('loading/:source')
@@ -68,9 +66,10 @@ export class ClientController {
     }
     res.render('loading');
   }
+
   @Get('loading')
   async loadingRedirect(@Res() res, @Req() req, @Param() param) {
-    res.redirect('loading/pageshare');
+    res.redirect('loading/web');
   }
 
   // 聊天页面
@@ -101,40 +100,50 @@ export class ClientController {
   @Post('success')
   async share(@Res() res, @Body() body){
     const availableStatus: any = await this.clientService.checkFormAvailable(body);
-
+    /* success - Type
+      0. 今天已领过礼物
+      1: 成功大包
+      2: 成功领取饮料券
+    */
     if (availableStatus.error === '' ){
       res.render('form', availableStatus);
     } else {
-      const isSerial = await this.clientService.checkIsSerial(body.phone);
-      if (isSerial) {
-        // const feedback = await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
-        // body.SMSState = feedback;
-        await this.clientService.saveLuckDog(body, 'bag');
-        res.render('success', 1);
-      }else {
-        const hasGift = await this.clientService.hasGift();
-        if (hasGift) {
-          const isFirst = await this.clientService.checkIsFirst(body.phone);
-          if (isFirst) {
-            // const feedback = await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
-            // body.SMSState = feedback;
-            await this.clientService.saveLuckDog(body, 'bag');
-            res.render('success', 1);
-          } else {
-            const ifGotDrink = await this.clientService.hasGotDrink(body.phone);
-            if (!ifGotDrink) {
-              // 今天没拿过饮料
-              // const feedback = await this.clientService.sendMessageToUser(body.phone, 'ticket', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+      const ifGotDrink = await this.clientService.isGotToday(body.phone);
+      if (!ifGotDrink) {
+        // 今天没领过
+        const isSerial = await this.clientService.checkIsSerial(body.phone);
+        if (isSerial) {
+          // const feedback = await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+          // body.SMSState = feedback;
+          await this.clientService.saveLuckDog(body, 'bag');
+          res.render('success', 1);
+        }else {
+          const hasGift = await this.clientService.hasGift();
+          if (hasGift) {
+            const isFirst = await this.clientService.checkIsFirst(body.phone);
+            if (isFirst) {
+              // const feedback = await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
               // body.SMSState = feedback;
-              await this.clientService.saveLuckDog(body, 'ticket');
-              res.render('success', 2);
+              await this.clientService.saveLuckDog(body, 'bag');
+              res.render('success', 1);
             } else {
-              res.render('success', 0);
+              if (!ifGotDrink) {
+                // 今天没拿过饮料
+                // const feedback = await this.clientService.sendMessageToUser(body.phone,
+                // 'ticket', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+                // body.SMSState = feedback;
+                await this.clientService.saveLuckDog(body, 'ticket');
+                res.render('success', 2);
+              } else {
+                res.render('success', 0);
+              }
             }
+          } else {
+            res.render('success', 2);
           }
-        } else {
-          res.render('success', 2);
         }
+      } else {
+        res.render('success', 0);
       }
       // await this.clientService.saveLuckDog(body, 'ticket');
       // await this.clientService.sendMessageToUser(body.phone, type, body.pick.split(' ')[0], body.pick.split(' ')[1]);

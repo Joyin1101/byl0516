@@ -4,11 +4,12 @@ html
     meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1')
     //- title 正在输入中...
     title 相约摩天轮 ⽩享一夏
-    script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
-    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
     link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
     link(rel='stylesheet', type='text/css', href='./../css/chat.css')
     link(rel='stylesheet', type='text/css', href='./../css/mixin/cutIn.css')
+    script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
+    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
+    script(type='text/javascript', src='./../js/lib/baidu.js')
 
   body
     - var left = './../images/thumb-girl.png'
@@ -17,15 +18,16 @@ html
     +cutIn()
     +cutOut()
     .main-header
-      image.notification(src='./../images/notification.png')
-      .group-title
-        .group-title-icon
-          image.icon-back(src='./../images/icon-back.png')
-        .group-title 白享一夏相约摩天轮推广(499)
-        .group-profile
-          image.icon-profile(src='./../images/icon-profile.png')
+      image.notification(src='./../images/wechat-header.png')
+      //- .group-title
+      //-   .group-title-icon
+      //-     image.icon-back(src='./../images/icon-back.png')
+      //-   .group-title 白享一夏相约摩天轮推广(499)
+      //-   .group-profile
+      //-     image.icon-profile(src='./../images/icon-profile.png')
     .main-body
       .body-chat
+        image(src='./../images/wechat-header.png', style='display: block; width: 100%;')
         #chat1.chat-time 11:01
 
         #chat2.chat-line.chat-left-item
@@ -97,16 +99,16 @@ html
             .chat-link-desc
               .desc-title 相约摩天轮 白享一夏
               .desc-intro 白吃！白喝！白玩！白住！白拿礼物！
-            .get-start
-              image.icon-touch(src='./../images/icon-touch.png')
-    .main-footer
-      .icon-item
-        image.footer-icon(src='./../images/icon-voice.png')
-      .icon-item
-        image.footer-icon(src='./../images/icon-plus.png')
-      .input-blank
-      .icon-send       
-        image.footer-icon(src='./../images/icon-send.png')
+            //- .get-start
+            //-   image.icon-touch(src='./../images/icon-touch.png')
+    //- .main-footer
+    //-   .icon-item
+    //-     image.footer-icon(src='./../images/icon-voice.png')
+    //-   .icon-item
+    //-     image.footer-icon(src='./../images/icon-plus.png')
+    //-   .input-blank
+    //-   .icon-send       
+    //-     image.footer-icon(src='./../images/icon-send.png')
 
   script.
     function texting(display, id) {
@@ -168,11 +170,11 @@ html
       setTimeout(function() {
         texting('flex', '#chat13');
         //- $('#chat13').fadeIn().css('display', 'flex');
-      }, timeDelay + 11500);
+      }, timeDelay + 10500);
       setTimeout(function() {
         texting('block', '#chat14');
         //- $('#chat14').fadeIn().css('display', 'block');
-      }, 11500);
+      }, timeDelay + 11500);
       setTimeout(function() {
         $('#chat15').fadeIn().css('display', 'flex');
         setInterval(function() {
@@ -180,10 +182,10 @@ html
         },500)
         $("html,body").animate({scrollTop:$('#chat15').offset().top},2000);//1000是ms,也可以用slow代替
         setTimeout(function() {
-          setTimeout(function(){
             $('.cutOut').fadeIn().css('display', 'block');           
+          setTimeout(function(){
+            $(window).attr('location','../gift');
           }, 500)
-          $(window).attr('location','../gift');
         }, 2000)
       }, timeDelay + 11500);
     });
