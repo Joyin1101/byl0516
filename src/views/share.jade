@@ -10,54 +10,14 @@ html
     script(type='text/javascript', src='./../js/lib/baidu.js')
   body
     .main-body
-      .gift-header
-        image.gift-title(src='./../images/title.png')
-      .gift-body
-        #carouselExampleControls.carousel.slide(data-ride='carousel')
-          .carousel-inner
-            .carousel-item.active
-              img#share1.d-block.w-100(src='#{share1}', alt='First slide')
-            .carousel-item
-              img#share2.d-block.w-100(src='#{share2}', alt='Second slide')
-          a.carousel-control-prev(href='#carouselExampleControls', role='button', data-slide='prev')
-            span.carousel-control-prev-icon(aria-hidden='true')
-            span.sr-only Previous
-          a.carousel-control-next(href='#carouselExampleControls', role='button', data-slide='next')
-            span.carousel-control-next-icon(aria-hidden='true')
-            span.sr-only Next
-
-        //- image.share-item(src='http://p8uu8ljre.bkt.clouddn.com/share-boy1.png?watermark/2/text/6LCi5am35am377yM5paH6Im657uF5Lmf6KaB4oCc55qu4oCd5LiA5LiLISDnuqbkuI3vvJ8=/font/5a6L5L2T/fontsize/320/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/30/dy/20')
-
-      .btn-groups
-        a.btn-submit(href='javascript:void(0)',onclick="splash()") 保存并分享
-        a.btn-submit(href='/jump') 了解锦江之星
-    .splash-body
-      .splash-image
-        image#selectShare1.rotate-it.share-item(src='#{previewShare1}')
-        image#selectShare2.rotate-it.share-item(src='#{previewShare2}')
-      //- .splash-tell 长按保存分享给好友
-      .splash-share-btn
-        a.btn-submit(href='/jump') 了解锦江之星
+      .share-box
+        .box-bg
+            image(src=shareItem)
+        .box-bg-content
+          .btn-item(href='javascript:void(0)', onClick= 'hideBtns()') 保存并分享
+          a.btn-item(href='/jump') 299特价房
   script.
-    var currentTab = 0;
-    $(document).ready(function(){
-      $('#carouselExampleControls').on('slide.bs.carousel', function (e) {
-        // do something…
-        currentTab = e.to;
-        console.log(e.to)
-      })
-    })
-    function splash() {
-      console.log($('#share'+(currentTab+1)).attr('src'))
-
-      $('.splash-body').fadeIn();
-      setTimeout(function(){
-        if (currentTab === 0 ){
-          $('#selectShare1').addClass('rotate-share-item').addClass('shared-one');
-        } else {
-          $('#selectShare2').addClass('rotate-share-item').addClass('shared-one');
-        }
-        $("html,body").animate({scrollTop:0 },1000);//1000是ms,也可以用slow代替
-      }, 500);
-      //- console.log('did it')
+    function hideBtns() {
+      $('.box-bg-content').fadeOut();
     }
+    

@@ -1,7 +1,16 @@
 mixin coupon(title, desc, icon)
   .gift-item
+    .item-date  
+      | 有效期至
+      span 2018
+      | 年
+      span 9
+      | 月
+      span 15
+      | 日
     .item-main
+      image.item-sub-icon(src=icon)
+    .item-sub
       .item-main-title= title
       .item-main-desc= desc
-    .item-sub
-      image.item-sub-icon(src=icon)
+    .item-right

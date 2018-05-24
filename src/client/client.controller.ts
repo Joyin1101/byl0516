@@ -99,51 +99,82 @@ export class ClientController {
 
   @Post('success')
   async share(@Res() res, @Body() body){
+    console.log(body);
     const availableStatus: any = await this.clientService.checkFormAvailable(body);
     /* success - Type
       0. 今天已领过礼物
       1: 成功大包
       2: 成功领取饮料券
     */
-    if (availableStatus.error === '' ){
+    console.log(availableStatus);
+    const feedback = false;
+    if (availableStatus.error !== '' ){
+      console.log('wrong');
       res.render('form', availableStatus);
     } else {
-      const ifGotDrink = await this.clientService.isGotToday(body.phone);
-      if (!ifGotDrink) {
-        // 今天没领过
-        const isSerial = await this.clientService.checkIsSerial(body.phone);
-        if (isSerial) {
-          // const feedback = await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
-          // body.SMSState = feedback;
-          await this.clientService.saveLuckDog(body, 'bag');
-          res.render('success', 1);
-        }else {
+      console.log('next');
+      // return true;
+      // res.render('success', 1);
+      const hasGotBag = await this.clientService.checkIsFirst(body.phone);
+      if (hasGotBag){
+        const ifGotAnything = await this.clientService.isGotToday(body.phone);
+        // console.log(ifGotDrink);
+        if (!ifGotAnything) {
+          console.log('今天没领过');
+          // 今天没领过
           const hasGift = await this.clientService.hasGift();
           if (hasGift) {
-            const isFirst = await this.clientService.checkIsFirst(body.phone);
-            if (isFirst) {
-              // const feedback = await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
-              // body.SMSState = feedback;
-              await this.clientService.saveLuckDog(body, 'bag');
-              res.render('success', 1);
-            } else {
-              if (!ifGotDrink) {
-                // 今天没拿过饮料
-                // const feedback = await this.clientService.sendMessageToUser(body.phone,
-                // 'ticket', body.pick.split(' ')[0], body.pick.split(' ')[1]);
-                // body.SMSState = feedback;
-                await this.clientService.saveLuckDog(body, 'ticket');
-                res.render('success', 2);
-              } else {
-                res.render('success', 0);
-              }
-            }
+            console.log('今天有礼物');
+            // feedback = await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+            body.SMSState = feedback;
+            await this.clientService.saveLuckDog(body, 'bag');
+            res.render('success', {
+              status: 1,
+              name: body.name,
+              gender: body.gender,
+            });
           } else {
-            res.render('success', 2);
+            console.log('今天没礼物');
+            // 是否连续三天来
+            const isSerial = await this.clientService.checkIsSerial(body.phone);
+            if (isSerial) {
+              console.log('连续3天来');
+              // feedback = await this.clientService.sendMessageToUser(body.phone, 'bag', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+              body.SMSState = feedback;
+              await this.clientService.saveLuckDog(body, 'bag');
+              res.render('success', {
+                status: 1,
+                name: body.name,
+                gender: body.gender,
+              });
+            } else {
+              console.log('没礼物没, 没三天, 拿饮料');
+              // 今天没拿过饮料
+              // feedback = await this.clientService.sendMessageToUser(body.phone,
+              // 'ticket', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+              body.SMSState = feedback;
+              await this.clientService.saveLuckDog(body, 'ticket');
+              res.render('success', {
+                status: 2,
+                name: body.name,
+                gender: body.gender,
+              });
+            }
           }
+        } else {
+          res.render('success', {
+            status: 0,
+            name: body.name,
+            gender: body.gender,
+          });
         }
+
       } else {
-        res.render('success', 0);
+        res.render('success', {
+          status: 0,
+          name: body.name,
+          gender: body.gender,
+        });
       }
       // await this.clientService.saveLuckDog(body, 'ticket');
       // await this.clientService.sendMessageToUser(body.phone, type, body.pick.split(' ')[0], body.pick.split(' ')[1]);
@@ -151,7 +182,20 @@ export class ClientController {
   }
   @Get('success')
   shareIn(@Res() res) {
-    res.redirect('/loading/test');
+    res.redirect('/loading/pageshare');
+  }
+
+  @Get('drink')
+  getDrink(@Res() res) {
+    // const feedback = await this.clientService.sendMessageToUser(body.phone,
+    // 'ticket', body.pick.split(' ')[0], body.pick.split(' ')[1]);
+    // body.SMSState = feedback;
+    // await this.clientService.saveLuckDog(body, 'ticket');
+    const shareItem = this.clientService.formatShareItem('girl', '唐浩翔');
+    console.log(shareItem);
+    res.render('share', {
+      shareItem,
+    });
   }
 
   // operation
@@ -164,7 +208,30 @@ export class ClientController {
   }
 
   // test
-  @Get('test')
+  @Get('success/:status')
+  testSuccess(@Res() res, @Param() param) {
+    res.render('success', {
+      status: parseInt(param.status, 10),
+    });
+    // res.render('/share', {
+    //   status: 1,
+    // });
+  }
+  // test
+@Get('share')
+shareItem(@Res() res, @Query() query) {
+  const shareItem = this.clientService.formatShareItem(query.gender, query.name);
+  res.render('share', {
+    shareItem,
+    name: query.name,
+    gender: query.gender,
+  });
+    // res.render('/share', {
+    //   status: 1,
+    // });
+  }
+
+@Get('test')
   async test(@Req() req) {
   //   const options = {
   //     method: 'GET',
@@ -208,7 +275,7 @@ export class ClientController {
   //     };
   //   }
   // }
-  @Get('test/:id')
+@Get('test/:id')
   async testPost(@Req() req, @Param() param) {
     // const uri = 'http://wxcj.jj-inn.com/api/ActivityApi/JJSendMsg?tel=18721558772&content=本人前往虹梅路227号白玉兰上海锦江乐园酒店&typecode=BYLHD';
     let uri = 'http://wxcj.jj-inn.com/api/ActivityApi/JJSendMsg?';

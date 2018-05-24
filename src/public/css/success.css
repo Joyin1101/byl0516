@@ -1,24 +1,25 @@
-body {
-  overflow-x:hidden;
-}
 .loading-brand {
   text-align: center;
   padding-top: 10%;
-}
-
-.bg-main-body {
-  background: url('./../images/bg-gift-pattern.png'); 
-  background-repeat: repeat;
-  width: 100%;
 }
 
 .main-body {
   position: relative; 
   width: 100%; 
   background: url('./../images/bg-gift.png'); 
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
-  width: 100%;
+  /* height: 100%; */
+  padding-bottom: 10%;
+}
+.main-body-drink {
+  position: relative; 
+  width: 100%; 
+  background: url('./../images/bg-gift.png'); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* height: 100%; */
+  padding-bottom: 10%;
 }
 
 .gift-header {
@@ -28,7 +29,7 @@ body {
 }
 
 .gift-body {
-  padding-top: 0%;
+  padding-top: 10%;
 }
 
 .gift-title {
@@ -47,7 +48,6 @@ body {
 .pocket {
   width: 100%;
   text-align: center;
-  margin-top: 10%;
 }
 
 .red-bag {
@@ -56,37 +56,56 @@ body {
 
 .bag-title {
   position: relative;
-  padding-top: 20%;
-    margin-top: 10%;
-    margin-left: 6%;
-  width: 80%;
-  height: 300px;
-  font-size: 48px;
-  font-weight: 500;
-  line-height: 160px;
+  /* margin: 0 auto; */
+  width: 90%;
+  height: 350px;
+  /* font-size: 48px; */
+  /* font-weight: 500; */
+  /* line-height: 160px; */
   color: #fc6c37;
   background-image: url('./../images/gift-box.png');
   background-size: 100%;
   background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
+  padding-top: 186px;
+  padding-left: 10%;
 }
 .title-answer {
   font-size: 16px;
   color: white;
+  line-height: 34px;
+  
+}
+.rule-warning-list {
+  /* text-align: center; */
+  margin-top: 10%;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  font-weight: 1000;
+  font-size: 18px;
+  position: absolute;
+  width: 80%;
+    left: 10%;
+}
+.rule-warning {
+  /* font-size: 18px; */
+  color: #333333;
+  line-height: 36px;
+  font-weight: 1000;
+  /* margin: 0 auto; */
+  text-align: center;
 }
 
 .btn-reward {
   font-size: 20px;
-  background: #FFEB9E;
-  width: 50%;
+  background: #81d8d0;
+  width: 80%;
   line-height: 44px;
   margin: 41px auto;
   border-radius: 20px;
   border: 0;
   display: block;
-  color: #fc6c37;
-  margin-left: 30%;
+  color: white;
+  text-align: center
 }
 
 .gift-none-body {
@@ -123,7 +142,7 @@ body {
 
 .gift-list {
   width: 100%;
-  margin: 20px 0 20px 3%;
+  margin: 20px 0 20px 5%;
   display: flex;
   flex-direction: column;
   padding: 2% 0;
@@ -139,10 +158,34 @@ body {
   position: relative;
   /* height: 100%; */
 }
+.warning-rule {
+  margin-top: 10%;
+  padding-bottom: 10%;
+  position: relative;
+  height: 50%;
+}
+.bg-warning-body {
+  height: 100%;
+  background: url('./../images/bg-loading.png'); 
+  background-size: cover;
+  padding-bottom: 20px;
+}
 
 .rule-bg {
   background-color: white;
   opacity: 0.3;
+  height: 98%;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 6px;
+  position: absolute;
+  top: 0;
+  left: 5%;
+  /* padding-bottom: 10%; */
+}
+.warning-bg {
+  background-color: white;
+  opacity: 0.8;
   height: 98%;
   width: 90%;
   margin: 0 auto;

@@ -10,67 +10,72 @@ html
     script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
     script(type='text/javascript', src='./../js/lib/baidu.js')
   body
-    .main-body
-      .gift-header
-        image.gift-title(src='./../images/title.png')
-      .gift-body
-        .pocket
-          //- image.red-bag(src='./../images/red-bag.png')
-          .bag-title
-            span.title-unit ￥
-            | 1098
-            //- form(action="http://localhost:3000/form", method='post')
-              input(name='gender', value='girl', style='display: none;')
-            a.btn-reward(href='/form?type=bag&gender=#{gender}') 立即领取
-      .gift-list
-        include mixin/coupon.jade
-        +coupon('房费抵用券', '100元＊3张', './../images/icon-hotel.png')
-        +coupon('68元周末节假日自助早午餐', '2人同行1人免单券*2张 ', './../images/icon-meal.png')
-        +coupon('赠饮券2张', '（任意非酒精饮料）', './../images/icon-drink.png')
-        +coupon('100元餐饮抵用券', '20元＊5张，每次只可使用1张', './../images/icon-eat.png')
-        +coupon('锦江乐园摩天轮门票2张', '“上海大转盘”项目1次，逾期作废', './../images/icon-wheel.png')
-        +coupon('白玉兰酒店开业伴手礼1份', 'IP人物环保背包', './../images/icon-gift.png')
-        +coupon('爱奇艺影视房免费体验1次', '8:00-18:00内任意4小时', './../images/icon-aiqiyi.png')
-      .gift-rule
-        .rule-title 活动规则
-        ul.rule-list
-          li.rule-item 
-            span ◆ 
-            | 白玉兰上海锦江乐园酒店开业大礼包需线上预约，线下签到领取；
-          li.rule-item 
-            span ◆ 
-            | 5/23 00:00～6/20 24:00 为线上预约时间，每日限量领取，随机分配，领完即止；
-          li.rule-item
-            span ◆ 
-            | 白玉兰上海锦江乐园酒店开业大礼包需线上预约，线下签到领取；
-          li.rule-item 
-            span ◆ 
-            | 预约成功，将发送短信提示，到店签到领取时请出示短信为凭；
-          li.rule-item
-            span ◆ 
-            | 6/16～6/21 为线下签到领取时间，请按照预约时段前往白玉兰上海锦江乐园酒店签到，非预约时段恕不接待签到领取大礼包，逾期无效。
-          li.rule-item 
-            span ◆ 
-            | 成功预约者凭短信到现场完成锦江旅行的会员注册即视为签到成功，可如约领取开业大礼包一份；
-
-      .gift-rule
-        .rule-title 免责声明
-        ul.rule-list
-          li.rule-item 
-            span ◆ 
-            | 参与活动即表示您同意本活动规则并同意依照隐私政策对您的个人信息进行收集和佷用。
-          li.rule-item 
-            span ◆ 
-            | 本次活动主办方不对因网络传输等原因而导致参加者信息错误或延误承担任何责任。活动过程中如因政府法律法规调整或行政命令要求，活动主办方有权根据上述调整或要求随时调整活动内容及规则。活动内容及规则调整时，活动主办方将另行向活动参与者公告通知相关的调整。
-          li.rule-item 
-            span ◆ 
-            | 活动过程中出现不可抗力事件或计算机系统故障直接或间接地造成活动主办方无法履行其全部或部分义务，则活动主办方免于履行该义务，并无需承担相应的责任。不可抗力事件包括但不限于地震、台风、火灾、水灾、战争、法律法规识整、政府命令禁止、因黑客攻击、计算机疟毒影响造成计算机系统故障，及其他自然非人为灾害等导致活动无法继续开展的，且活动主办方不可预见、无法避免并无法控制事件。
-          li.rule-item 
-            span ◆ 
-            | 若用户对本次活动有任何疑义，请联系热线 【400-820-9999】。
-          li.rule-item 
-            span ◆ 
-            | 活动参与者理解并同意，活动参与者本人在参加本次活动前已完整阅读了本活动规则，对活动规则已完全理解并全部同意。活动参与者保证在活动过程中，将完全遵照活动规则的规定参与活动。凡在本次活动中涉嫌使用不正当手段者，或主办方确有证据证明认为其有舞弊或其他不正当行为的活动参与者，主办方有权取消其参与活动、获得奖品的权利。
+    .bg-main-body
+      .main-body
+        .loading-brand
+          image(src='./../images/loading-brand.png', style='width: 100px; ')
+        .gift-header
+          image.gift-title(src='./../images/loading-title.png')
+        .gift-subtitle 5月25日-6月21日
+        .gift-subtitle 白玉兰品牌旗舰店邀您白享一夏
+        .gift-body
+          .pocket
+            //- image.red-bag(src='./../images/red-bag.png')
+            .bag-title
+              //- span.title-unit ￥
+              //- | 1098
+              //- form(action="http://localhost:3000/form", method='post')
+                input(name='gender', value='girl', style='display: none;')
+              a.btn-reward(href='/form') 立即领取
+        .gift-list
+          include mixin/coupon.jade
+          +coupon('房费抵用券', '100元＊3张', './../images/icon-hotel.png')
+          +coupon('68元周末节假日自助早午餐', '2人同行1人免单券*2张 ', './../images/icon-breakfast.png')
+          +coupon('赠饮券2张', '（任意非酒精饮料）', './../images/icon-drink.png')
+          +coupon('100元餐饮抵用券', '20元＊5张，每次只可使用1张', './../images/icon-dinner.png')
+          +coupon('锦江乐园摩天轮门票2张', '“上海大转盘”项目1次，逾期作废', './../images/icon-wheel.png')
+          +coupon('白玉兰酒店开业伴手礼1份', 'IP人物环保背包', './../images/icon-gift.png')
+          +coupon('爱奇艺影视房免费体验1次', '8:00-18:00内任意4小时', './../images/icon-aiqiyi.png')
+        .gift-rule
+          .rule-bg
+          .rule-main
+            .rule-title 活动规则
+            ul.rule-list
+              li.rule-item 
+                span ◆ 
+                | 白玉兰上海锦江乐园酒店开业大礼包需线上预约，线下签到领取；
+              li.rule-item 
+                span ◆ 
+                | 5/23 00:00～6/20 24:00 为线上预约时间，每日限量领取，随机分配，领完即止；
+              li.rule-item
+                span ◆ 
+                | 白玉兰上海锦江乐园酒店开业大礼包需线上预约，线下签到领取；
+              li.rule-item 
+                span ◆ 
+                | 预约成功，将发送短信提示，到店签到领取时请出示短信为凭；
+              li.rule-item
+                span ◆ 
+                | 6/16～6/21 为线下签到领取时间，请按照预约时段前往白玉兰上海锦江乐园酒店签到，非预约时段恕不接待签到领取大礼包，逾期无效。
+              li.rule-item 
+                span ◆ 
+                | 成功预约者凭短信到现场完成锦江旅行的会员注册即视为签到成功，可如约领取开业大礼包一份；
+            .rule-title 免责声明
+            ul.rule-list
+              li.rule-item 
+                span ◆ 
+                | 参与活动即表示您同意本活动规则并同意依照隐私政策对您的个人信息进行收集和佷用。
+              li.rule-item 
+                span ◆ 
+                | 本次活动主办方不对因网络传输等原因而导致参加者信息错误或延误承担任何责任。活动过程中如因政府法律法规调整或行政命令要求，活动主办方有权根据上述调整或要求随时调整活动内容及规则。活动内容及规则调整时，活动主办方将另行向活动参与者公告通知相关的调整。
+              li.rule-item 
+                span ◆ 
+                | 活动过程中出现不可抗力事件或计算机系统故障直接或间接地造成活动主办方无法履行其全部或部分义务，则活动主办方免于履行该义务，并无需承担相应的责任。不可抗力事件包括但不限于地震、台风、火灾、水灾、战争、法律法规识整、政府命令禁止、因黑客攻击、计算机疟毒影响造成计算机系统故障，及其他自然非人为灾害等导致活动无法继续开展的，且活动主办方不可预见、无法避免并无法控制事件。
+              li.rule-item 
+                span ◆ 
+                | 若用户对本次活动有任何疑义，请联系热线 【400-820-9999】。
+              li.rule-item 
+                span ◆ 
+                | 活动参与者理解并同意，活动参与者本人在参加本次活动前已完整阅读了本活动规则，对活动规则已完全理解并全部同意。活动参与者保证在活动过程中，将完全遵照活动规则的规定参与活动。凡在本次活动中涉嫌使用不正当手段者，或主办方确有证据证明认为其有舞弊或其他不正当行为的活动参与者，主办方有权取消其参与活动、获得奖品的权利。
 
 
         

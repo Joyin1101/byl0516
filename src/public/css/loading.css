@@ -2,6 +2,9 @@
   text-align: center;
   padding-top: 10%;
 }
+.share-thumb {
+  display: none;
+}
 .main-body {
   position: relative; 
   width: 100%; 

@@ -95,7 +95,7 @@ export class ClientService {
     // 查看预设奖品总数
     const total = await this.querySetting('total');
 
-    if (totalBag > parseInt(total, 10)) {
+    if (totalBag >= parseInt(total, 10)) {
       return false;
     } else {
       // 今日已领数量
@@ -115,18 +115,20 @@ export class ClientService {
   }
 
   async isGotToday(phone): Promise<boolean> {
-    const luckyDog = new AV.Query('LuckDogs');
+    // true: 今天领过了
+    // false: 没领过
+    const luckyDog = new AV.Query('LuckyDogs');
     luckyDog.greaterThanOrEqualTo('createdAt', new Date(moment(moment().format('l'), 'MM/DD/YYYY', false).format()));
     luckyDog.lessThan('createdAt', new Date(moment(moment().add(1, 'd').format('l'), 'MM/DD/YYYY', false).format()));
     luckyDog.equalTo('phone', phone);
     const r = await luckyDog.count();
+    // console.log(r);
     return r > 0;
   }
 
   async checkFormAvailable(body): Promise<object> {
     const checkItem = {
       gender: body.gender,
-      type: body.type,
       error: '',
       name: body.name,
       phone: body.phone,
@@ -146,6 +148,8 @@ export class ClientService {
   }
 
   async checkIsFirst(phone): Promise<boolean> {
+    // true: 可以领
+    // false: 领过了
     const queryDog = new AV.Query('LuckyDogs');
     queryDog.equalTo('type', 'bag');
     queryDog.equalTo('phone', phone);
@@ -181,47 +185,24 @@ export class ClientService {
     return result.get('v');
   }
 
-  formatShareItem(imageItem, name): object {
+  formatShareItem(gender, name): string {
     const imageUrls = {
-      boy1: {
-        previewUrl: 'http://byl0516.blissr.com.cn/boy1.png?',
-        generateUrl: 'http://byl0516.blissr.com.cn/share-boy1.png?',
-        subtitle: '，文艺绅也要“皮”一下! 约不？',
-      },
-      boy2: {
-        previewUrl: 'http://byl0516.blissr.com.cn/boy2.png?',
-        generateUrl: 'http://byl0516.blissr.com.cn/share-boy2.png',
-        subtitle: '，人文咖内心很想“嗨”！约不？',
-      },
-      girl1: {
-        previewUrl: 'http://byl0516.blissr.com.cn/girl1.png?',
-        generateUrl: 'http://byl0516.blissr.com.cn/share-girl1.png?',
-        subtitle: '，娇嗲任性够顽皮！敢约吗？',
-      },
-      girl2: {
-        previewUrl: 'http://byl0516.blissr.com.cn/girl2.png?',
-        generateUrl: 'http://byl0516.blissr.com.cn/share-girl2.png?',
-        subtitle: '，精致女生都是完美控！敢约吗？',
-      },
+      girl: 'http://byl0516.blissr.com.cn/girl.png?',
+      boy: 'http://byl0516.blissr.com.cn/girl.png?',
     };
 
-    let previewUrl = imageUrls[imageItem].previewUrl + 'watermark/2/text/';
-    let generateUrl = imageUrls[imageItem].generateUrl + 'watermark/2/text/';
+    let generateUrl = imageUrls[gender] + 'watermark/2/text/';
 
-    let temp = Buffer.from(name.toString('utf-8') + ',文艺绅也要"皮"一下!约不?').toString('base64');
+    let temp = Buffer.from(name.toString('utf-8')).toString('base64');
     if (temp.indexOf('+') > 0) {
       temp = temp.replace(new RegExp('\\+', 'g'), '-');
     }
     if (temp.indexOf('/') > 0) {
       temp = temp.replace(new RegExp('\/', 'g'), '_');
     }
-    previewUrl = previewUrl + temp + '/font/5a6L5L2T/fontsize/300/fill/IzRBNEE0QQ==/dissolve/100/gravity/West/dx/20/dy/60';
-    generateUrl = generateUrl + temp + '/font/5a6L5L2T/fontsize/280/fill/IzRBNEE0QQ==/dissolve/100/gravity/Center/dx/0/dy/140';
+    generateUrl = generateUrl + temp + '/fontsize/700/fill/IzRBNEE0QQ==/dissolve/100/gravity/East/dx/60/dy/80';
 
-    return {
-      previewUrl,
-      generateUrl,
-    };
+    return generateUrl;
   }
   async sendMessageToUser(phone, type, date, time): Promise<boolean> {
     let content = '';
@@ -236,17 +217,10 @@ export class ClientService {
       method: 'GET',
       uri: jjUrl,
     };
-    let count = 1;
 
-    while (feedback){
-      feedback = await rp(options);
-      if (feedback === 'true') feedback = true;
-      if (feedback === 'false') feedback = false;
-      count ++;
-      if (count > 3){
-        feedback = false ;
-      }
-    }
+    feedback = await rp(options);
+    if (feedback === 'true') feedback = true;
+    if (feedback === 'false') feedback = false;
 
     return feedback;
   }

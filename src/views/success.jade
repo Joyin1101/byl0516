@@ -1,0 +1,66 @@
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, minimum-scale=1, maximum-scale=1')
+    title 相约摩天轮 ⽩享一夏
+    link(rel='stylesheet', type='text/css', href='./../lib/bootstrap-4.1.1-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='./../css/success.css')
+    link(rel='stylesheet', type='text/css', href='./../css/mixin/coupon.css')
+    script(type='text/javascript', src='./../js/lib/jquery-3.3.1.min.js')
+    script(type='text/javascript', src='./../lib/bootstrap-4.1.1-dist/js/bootstrap.min.js')
+    script(type='text/javascript', src='./../js/lib/baidu.js')
+  body
+    //- div= status
+    if status == 1
+      .main-body
+        .loading-brand
+          image(src='./../images/loading-brand.png', style='width: 100px; ')
+        .gift-header
+          image.gift-title(src='./../images/loading-title.png')
+        .gift-subtitle 5月25日-6月21日
+        .gift-subtitle 白玉兰品牌旗舰店邀您白享一夏
+        .gift-body
+          .pocket
+            //- image.red-bag(src='./../images/gift-box.png')
+            .bag-title
+              .title-answer 夏日礼包领取成功
+              .title-answer 已通过短信发送到您手机
+              //- form(action="http://localhost:3000/form", method='post')
+                input(name='gender', value='girl', style='display: none;')
+              a.btn-reward(href='/share?name=#{name}&gender=#{gender}') 立即分享
+    else if status == 2
+      .main-body-drink
+        .loading-brand
+          image(src='./../images/loading-brand.png', style='width: 100px; ')
+        .gift-header
+          image.gift-title(src='./../images/loading-title.png')
+        .gift-subtitle 5月25日-6月21日
+        .gift-subtitle 白玉兰品牌旗舰店邀您白享一夏
+        .gift-body
+          .pocket
+            //- image.red-bag(src='./../images/gift-box.png')
+            .bag-title
+              .title-answer 今日的预约已满
+              .title-answer 送您一张"赠饮券"
+              //- form(action="http://localhost:3000/form", method='post')
+                input(name='gender', value='girl', style='display: none;')
+              a.btn-reward(href='/share?name=#{name}&gender=#{gender}') 立即领取
+        .gift-list
+          include mixin/coupon.jade
+          +coupon('赠饮券', '1张', './../images/icon-drink.png')
+    else if status == 0
+      .bg-warning-body
+        .loading-brand
+          image(src='./../images/loading-brand.png', style='width: 100px; ')
+        .gift-header
+          image.gift-title(src='./../images/loading-title.png')
+        .gift-subtitle 5月25日-6月21日
+        .gift-subtitle 白玉兰品牌旗舰店邀您白享一夏
+        .warning-rule
+          .warning-bg
+          .rule-warning-list
+            .rule-warning 您已领取过该礼包了，
+            .rule-warning 每人限领一次哦!
+            .rule-warning 分享好友，邀请得福利！
+            a.btn-reward(href='/share?name=#{name}&gender=#{gender}') 点击分享海报
+    //- p= message

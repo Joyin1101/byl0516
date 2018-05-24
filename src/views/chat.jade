@@ -28,7 +28,7 @@ html
     .main-body
       .body-chat
         image(src='./../images/wechat-header.png', style='display: block; width: 100%;')
-        #chat1.chat-time 11:01
+        #chat1.chat-time(style='padding-top: 5%;') 11:01
 
         #chat2.chat-line.chat-left-item
           .chat-thumbnail
@@ -116,65 +116,67 @@ html
       $("html,body").animate({scrollTop:$(id).offset().top},500);//1000是ms,也可以用slow代替
     }
     $(document).ready(function(){
-      var timeDelay = 1000;
+      var timeDelay = 500;
+      var inter = 1500;
       $('.cutIn').fadeOut('slow');
+      
 
       setTimeout(function() {
         texting('block', '#chat1');
         //- $('#chat1').fadeIn().css('display', 'flex');
-      }, timeDelay + 500);
+      }, timeDelay + inter * 1);
       setTimeout(function() {
         texting('flex', '#chat2');
         //- $('#chat2').fadeIn().css('display', 'block');
-      }, timeDelay + 500);
+      }, timeDelay + inter * 1);
       setTimeout(function() {
         texting('flex', '#chat3');
         //- $('#chat3').fadeIn().css('display', 'flex');
-      }, timeDelay + 1500);
+      }, timeDelay + inter * 2);
       setTimeout(function() {
         texting('flex', '#chat4');
         //- $('#chat4').fadeIn().css('display', 'flex');
-      }, timeDelay + 2500);
+      }, timeDelay + inter * 3);
       setTimeout(function() {
         texting('flex', '#chat5');
         //- $('#chat5').fadeIn().css('display', 'flex');
-      }, timeDelay + 3500);
+      }, timeDelay + inter * 4);
       setTimeout(function() {
         texting('flex', '#chat6');
         //- $('#chat6').fadeIn().css('display', 'flex');
-      }, timeDelay + 4500);
+      }, timeDelay + inter * 5);
       setTimeout(function() {
         texting('block', '#chat7');
         //- $('#chat7').fadeIn().css('display', 'block');
-      }, timeDelay + 5500);
+      }, timeDelay + inter * 6);
       setTimeout(function() {
         texting('flex', '#chat8');
         //- $('#chat8').fadeIn().css('display', 'flex');
-      }, timeDelay + 5500);
+      }, timeDelay + inter * 6);
       setTimeout(function() {
         texting('flex', '#chat9');
         //- $('#chat9').fadeIn().css('display', 'flex');
-      }, timeDelay + 6500);
+      }, timeDelay + inter * 7);
       setTimeout(function() {
         texting('flex', '#chat10');
         //- $('#chat10').fadeIn().css('display', 'flex');
-      }, timeDelay + 7500);
+      }, timeDelay + inter * 8);
       setTimeout(function() {
         texting('flex', '#chat11');
         //- $('#chat11').fadeIn().css('display', 'flex');
-      }, timeDelay + 8500);
+      }, timeDelay + inter * 9);
       setTimeout(function() {
         texting('flex', '#chat12');
         //- $('#chat12').fadeIn().css('display', 'flex');
-      }, timeDelay + 9500);
+      }, timeDelay + inter * 10);
       setTimeout(function() {
         texting('flex', '#chat13');
         //- $('#chat13').fadeIn().css('display', 'flex');
-      }, timeDelay + 10500);
+      }, timeDelay + inter * 11);
       setTimeout(function() {
         texting('block', '#chat14');
         //- $('#chat14').fadeIn().css('display', 'block');
-      }, timeDelay + 11500);
+      }, timeDelay + inter * 12);
       setTimeout(function() {
         $('#chat15').fadeIn().css('display', 'flex');
         setInterval(function() {
@@ -187,7 +189,7 @@ html
             $(window).attr('location','../gift');
           }, 500)
         }, 2000)
-      }, timeDelay + 11500);
+      }, timeDelay + inter * 12);
     });
     
     
