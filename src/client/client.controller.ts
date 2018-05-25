@@ -221,6 +221,7 @@ export class ClientController {
 @Get('share')
 shareItem(@Res() res, @Query() query) {
   const shareItem = this.clientService.formatShareItem(query.gender, query.name);
+  console.log(shareItem);
   res.render('share', {
     shareItem,
     name: query.name,

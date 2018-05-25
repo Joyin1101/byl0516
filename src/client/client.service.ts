@@ -188,7 +188,7 @@ export class ClientService {
   formatShareItem(gender, name): string {
     const imageUrls = {
       girl: 'http://byl0516.blissr.com.cn/girl.png?',
-      boy: 'http://byl0516.blissr.com.cn/girl.png?',
+      boy: 'http://byl0516.blissr.com.cn/boy.png?',
     };
 
     let generateUrl = imageUrls[gender] + 'watermark/2/text/';
