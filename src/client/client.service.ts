@@ -155,7 +155,6 @@ export class ClientService {
     queryDog.equalTo('phone', phone);
     const isDouble = await queryDog.count();
     return isDouble  < 1;
-
   }
 
   async checkIsSerial(phone): Promise<boolean> {
@@ -191,7 +190,7 @@ export class ClientService {
       boy: 'http://byl0516.blissr.com.cn/boy.png?',
     };
 
-    let generateUrl = imageUrls[gender] + 'watermark/2/text/';
+    let generateUrl = imageUrls[gender] + 'imageView2/0/q/100|watermark/2/text/';
 
     let temp = Buffer.from(name.toString('utf-8')).toString('base64');
     if (temp.indexOf('+') > 0) {
