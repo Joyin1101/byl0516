@@ -3,6 +3,11 @@
   background: url('./../images/bg-gift-pattern.png'); 
   background-repeat: repeat
 }
+.share-box {
+  background: url('./../images/bg-gift-pattern.png'); 
+  background-repeat: repeat
+}
+
 .loading-brand {
   text-align: center;
   padding-top: 10%;
@@ -38,6 +43,10 @@
   position: fixed;
   bottom: 30px;
 
+}
+
+.box-bg {
+  text-align: center;
 }
 
 .btn-item {
