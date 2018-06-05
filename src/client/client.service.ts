@@ -136,7 +136,7 @@ export class ClientService {
     if (body.name == null ) {
       checkItem.error = 'name';
       return checkItem;
-    } else if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(body.phone))){
+    } else if (!(/^1[3|4|5|7|8][0-9]\d{4,8}$/.test(body.phone))){
       checkItem.error = 'phone';
       return checkItem;
     }else if (body.pick === '请选择可参与的时间段') {
